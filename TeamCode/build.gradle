@@ -23,6 +23,20 @@ android {
     }
 }
 
+repositories {
+    maven { url = "https://mymaven.bylazar.com/releases" }
+    maven { url "https://repo.dairy.foundation/releases" }
+    maven { url "https://repo.dairy.foundation/snapshots" }
+}
+
 dependencies {
     implementation project(':FtcRobotController')
+
+    // Panels: the overview monitoring application.
+    implementation "com.bylazar:docs:1.0.4"
+
+    // SolversLib: a library of various equation solvers.
+    implementation "org.solverslib:core:SNAPSHOT-7cdcc66"
+    // PedroPathing: an advanced automated pathing library.
+    // implementation "org.solverslib:pedroPathing:SNAPSHOT-7cdcc662"
 }

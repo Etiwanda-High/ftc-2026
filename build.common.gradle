@@ -20,7 +20,6 @@ import java.util.regex.Pattern
 apply plugin: 'com.android.application'
 
 android {
-
     compileSdkVersion 30
 
     signingConfigs {
@@ -51,6 +50,7 @@ android {
         signingConfig signingConfigs.debug
         applicationId 'com.qualcomm.ftcrobotcontroller'
         minSdkVersion 24
+        multiDexEnabled true
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
 
