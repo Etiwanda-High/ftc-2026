@@ -21,10 +21,16 @@ android {
     packagingOptions {
         jniLibs.useLegacyPackaging true
     }
+
+    compileSdk 35
+
+    defaultConfig {
+        minSdk 24
+    }
 }
 
 repositories {
-    maven { url = "https://mymaven.bylazar.com/releases" }
+    maven { url "https://mymaven.bylazar.com/releases" }
     maven { url "https://repo.dairy.foundation/releases" }
     maven { url "https://repo.dairy.foundation/snapshots" }
 }
@@ -33,10 +39,12 @@ dependencies {
     implementation project(':FtcRobotController')
 
     // Panels: the overview monitoring application.
-    implementation "com.bylazar:docs:1.0.4"
+    implementation "com.bylazar:fullpanels:1.0.6"
 
-    // SolversLib: a library of various equation solvers.
+    // SolversLib: a utility library for FTC.
     implementation "org.solverslib:core:SNAPSHOT-7cdcc66"
     // PedroPathing: an advanced automated pathing library.
-    // implementation "org.solverslib:pedroPathing:SNAPSHOT-7cdcc662"
+    implementation "com.pedropathing:ftc:2.0.2"
+    implementation "com.pedropathing:telemetry:1.0.0"
+    implementation "org.solverslib:pedroPathing:SNAPSHOT-7cdcc66"
 }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.design;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -8,7 +8,7 @@ import com.seattlesolvers.solverslib.hardware.ServoEx;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import com.seattlesolvers.solverslib.hardware.motors.Motor.RunMode;
 
-@TeleOp(name = "Motor Demo", group = "Linear")
+@TeleOp(name = "Motor Demo", group = "Design")
 public final class MotorDemoOpMode extends LinearOpMode {
     private GamepadEx player1;
 
