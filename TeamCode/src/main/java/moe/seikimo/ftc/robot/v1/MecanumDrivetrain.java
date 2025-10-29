@@ -1,4 +1,4 @@
-package moe.seikimo.ftc;
+package moe.seikimo.ftc.robot.v1;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.drivebase.MecanumDrive;
@@ -8,6 +8,8 @@ import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import lombok.Setter;
 import lombok.val;
 import lombok.var;
+import moe.seikimo.ftc.Constants;
+import moe.seikimo.ftc.DriverProfile;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public final class MecanumDrivetrain {

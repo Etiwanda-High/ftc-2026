@@ -1,17 +1,24 @@
-package moe.seikimo.ftc;
+package moe.seikimo.ftc.robot.v1;
 
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.Rev9AxisImu;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.seattlesolvers.solverslib.gamepad.GamepadEx;
+import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;
+import lombok.experimental.ExtensionMethod;
 import lombok.val;
+import moe.seikimo.ftc.Constants;
+import moe.seikimo.ftc.Convert;
 import moe.seikimo.ftc.exceptions.LimelightException;
 import moe.seikimo.ftc.exceptions.NoResultException;
 import moe.seikimo.ftc.exceptions.NoTagDetectedException;
+import moe.seikimo.ftc.extensions.GamepadExtensions;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+@ExtensionMethod({GamepadExtensions.class})
 public final class Localization {
     private final Telemetry telemetry;
 
@@ -30,6 +37,7 @@ public final class Localization {
         this.imu = hwMap.get(Rev9AxisImu.class, Constants.SENSOR_IMU);
 //        this.otos = hwMap.get(SparkFunOTOS.class, Constants.SENSOR_OTOS);
 //        this.camera = hwMap.get(Limelight3A.class, Constants.SENSOR_LIMELIGHT);
+
         this.otos = null;
         this.camera = null;
     }
@@ -51,11 +59,37 @@ public final class Localization {
     }
 
     /**
+     * Invoked every loop cycle while the op mode is in the init phase.
+     */
+    public void preUpdate() {
+        this.telemetry.addLine("\nLocalization:");
+        this.telemetry.addData("Heading", this.getHeading());
+    }
+
+    /**
+     * Processes input from the given gamepad before the main update loop.
+     *
+     * @param gamepad The gamepad to read input from.
+     */
+    public void preInput(GamepadEx gamepad) {
+        this.superCommands(gamepad);
+    }
+
+    /**
      * Invoked every loop cycle while the op mode is active.
      */
     public void update() {
         this.telemetry.addLine("\nLocalization:");
         this.telemetry.addData("Heading", this.getHeading());
+    }
+
+    /**
+     * Processes input from the given gamepad.
+     *
+     * @param gamepad The gamepad to read input from.
+     */
+    public void input(GamepadEx gamepad) {
+        this.superCommands(gamepad);
     }
 
     /**
@@ -76,6 +110,18 @@ public final class Localization {
         // Calibrate the sensor by taking samples.
         // This is blocking and will wait until all samples are taken.
         this.otos.calibrateImu(Constants.OTOS_SAMPLES, true);
+    }
+
+    /**
+     * Commands for managing the robot.
+     *
+     * @param gamepad The gamepad to read from
+     */
+    private void superCommands(GamepadEx gamepad) {
+        // Reset the IMU.
+        if (gamepad.superPressed(Button.Y)) {
+            this.imu.resetYaw();
+        }
     }
 
     /**

@@ -42,9 +42,9 @@ dependencies {
     implementation "com.bylazar:fullpanels:1.0.6"
 
     // SolversLib: a utility library for FTC.
-    implementation "org.solverslib:core:SNAPSHOT-7cdcc66"
+    implementation "org.solverslib:core:0.3.3"
     // PedroPathing: an advanced automated pathing library.
     implementation "com.pedropathing:ftc:2.0.2"
     implementation "com.pedropathing:telemetry:1.0.0"
-    implementation "org.solverslib:pedroPathing:SNAPSHOT-7cdcc66"
+    implementation "org.solverslib:pedroPathing:0.3.3"
 }

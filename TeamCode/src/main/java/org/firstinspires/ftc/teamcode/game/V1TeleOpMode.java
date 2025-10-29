@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode.game;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
+import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;
+import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import moe.seikimo.ftc.Constants;
 import moe.seikimo.ftc.DriverProfile;
-import moe.seikimo.ftc.Localization;
-import moe.seikimo.ftc.MecanumDrivetrain;
+import moe.seikimo.ftc.robot.v1.Localization;
+import moe.seikimo.ftc.robot.v1.MecanumDrivetrain;
 
 @TeleOp(name = "V1", group = "Game")
 public final class V1TeleOpMode extends OpMode {
@@ -16,6 +17,8 @@ public final class V1TeleOpMode extends OpMode {
 
     private Localization locale;
     private MecanumDrivetrain drive;
+
+    private Motor motor;
 
     /**
      * Sets the hardware variables in the op mode.
@@ -31,6 +34,8 @@ public final class V1TeleOpMode extends OpMode {
         this.locale = new Localization(this.telemetry, this.hardwareMap);
         this.drive = new MecanumDrivetrain(this.telemetry, this.locale, this.hardwareMap);
         this.drive.setRelativeDrive(true);
+
+        this.motor = new Motor(this.hardwareMap, "intake");
     }
 
     /**
@@ -54,10 +59,6 @@ public final class V1TeleOpMode extends OpMode {
     private void preUpdate() {
         this.telemetry.addData("Status", "Configuration");
 
-        // Update controllers.
-        this.player1.readButtons();
-        this.player2.readButtons();
-
         // Add driver profile status text.
         this.telemetry.addLine("\nDriver Profile Selection:");
         this.telemetry.addData(" - Player 1", this.profile1.getName());
@@ -66,8 +67,12 @@ public final class V1TeleOpMode extends OpMode {
         this.telemetry.addLine("Press [B] for FlySky profile.");
 
         // TODO: "maybe abstract/separate this into another handle\class?"
-        this.profile1 = this.updateProfile(this.gamepad1, this.profile1);
-        this.profile2 = this.updateProfile(this.gamepad2, this.profile2);
+        this.profile1 = this.updateProfile(this.player1, this.profile1);
+        this.profile2 = this.updateProfile(this.player2, this.profile2);
+
+        // Update system.
+        this.locale.preUpdate();
+        this.locale.preInput(this.player1);
     }
 
     /**
@@ -76,14 +81,13 @@ public final class V1TeleOpMode extends OpMode {
     private void update() {
         this.telemetry.addData("Status", "Running");
 
-        // Update controllers.
-        this.player1.readButtons();
-        this.player2.readButtons();
-
         // Update systems.
         this.locale.update();
+        this.locale.input(this.player1);
         this.drive.update();
         this.drive.input(this.player1, this.profile1);
+
+        this.motor.set(this.gamepad1.left_trigger);
     }
 
     // region Prompt & Selection
@@ -95,11 +99,11 @@ public final class V1TeleOpMode extends OpMode {
      * @param current The current driver profile.
      * @return The updated driver profile.
      */
-    private DriverProfile updateProfile(Gamepad gamepad, DriverProfile current) {
-        if (gamepad.b) {
+    private DriverProfile updateProfile(GamepadEx gamepad, DriverProfile current) {
+        if (gamepad.wasJustPressed(Button.B)) {
             return Constants.DRIVE_FLYSKY;
         }
-        if (gamepad.a) {
+        if (gamepad.wasJustPressed(Button.A)) {
             return DriverProfile.DEFAULT;
         }
 
@@ -119,12 +123,20 @@ public final class V1TeleOpMode extends OpMode {
 
     @Override
     public void init_loop() {
+        // Update controllers.
+        this.player1.readButtons();
+        this.player2.readButtons();
+
         this.preUpdate();
         this.telemetry.update();
     }
 
     @Override
     public void loop() {
+        // Update controllers.
+        this.player1.readButtons();
+        this.player2.readButtons();
+
         this.update();
         this.telemetry.update();
     }

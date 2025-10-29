@@ -9,6 +9,8 @@ import com.pedropathing.paths.PathConstraints;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
+import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;
+import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Trigger;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
@@ -23,13 +25,19 @@ public interface Constants {
     // region Driver Profiles
     DriverProfile DRIVE_FLYSKY = DriverProfile.builder()
         .name("FlySky")
+        .superButton(Button.BACK)
+        .fixedPower(0.75)
         .translateY(GamepadEx::getRightY)
-        .translateX(GamepadEx::getRightX)
-        .rotate(g -> -g.getLeftX())
+        .translateX(GamepadEx::getLeftX)
+        .rotate(g -> -g.getRightX())
+        .launchPower(g -> g.getTrigger(Trigger.RIGHT_TRIGGER))
         .build();
     // endregion
 
     // region Hardware Map & Sensor Constants
+    String MOTOR_LAUNCH = "launcher";
+    String MOTOR_INTAKE = "intake";
+
     String SENSOR_LIMELIGHT = "limelight";
     int LIMELIGHT_POLL_RATE = 100;
 
