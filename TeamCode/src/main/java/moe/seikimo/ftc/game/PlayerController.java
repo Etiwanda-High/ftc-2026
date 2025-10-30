@@ -1,14 +1,14 @@
 package moe.seikimo.ftc.game;
 
+import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.button.GamepadButton;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
-import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Trigger;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import moe.seikimo.ftc.Constants;
+import lombok.val;
 import moe.seikimo.ftc.DriverProfile;
 
 @RequiredArgsConstructor
@@ -17,6 +17,8 @@ public final class PlayerController implements MonoBehaviour {
 
     /** The profile to use for adapting gamepad inputs into values. */
     @Getter @Setter private DriverProfile profile = DriverProfile.DEFAULT;
+
+    // region Modifiers
 
     /**
      * Runs the given action when the super button is pressed.
@@ -28,6 +30,75 @@ public final class PlayerController implements MonoBehaviour {
             action.run();
         }
     }
+
+    /**
+     * Runs the given action when the launch modifier is pressed.
+     *
+     * @param action The action to run.
+     */
+    public void intake(Runnable action) {
+        if (this.handle.isDown(this.profile.intakeModifier)) {
+            action.run();
+        }
+    }
+
+    /**
+     * Runs the given action when the launch modifier is pressed.
+     *
+     * @param action The action to run.
+     */
+    public void launch(Runnable action) {
+        if (this.handle.isDown(this.profile.launchModifier)) {
+            action.run();
+        }
+    }
+
+    /**
+     * Adds a binding for the intake action.
+     *
+     * @param button The button to listen for.
+     * @param press The action to complete.
+     * @return This instance for method chaining.
+     */
+    public PlayerController intake(Button button, Command press) {
+        return this.intake(button, press, null);
+    }
+
+    /**
+     * Adds a binding for the intake action.
+     *
+     * @param button The button to listen for.
+     * @param press The action to complete.
+     * @param release The action to complete on release.
+     * @return This instance for method chaining.
+     */
+    public PlayerController intake(Button button, Command press, Command release) {
+        val handle = this.button(button);
+        if (press != null) {
+            handle.whenHeld(press, true);
+        }
+        if (release != null) {
+            handle.whenReleased(release, false);
+        }
+        return this;
+    }
+
+    /**
+     * Adds a binding for the launch action.
+     *
+     * @param button The button to listen for.
+     * @param press The action to complete.
+     * @param release The action to complete on release.
+     * @return This instance for method chaining.
+     */
+    public PlayerController launch(Button button, Command press, Command release) {
+        this.button(button)
+            .whenHeld(press, true)
+            .whenReleased(release, false);
+        return this;
+    }
+
+    // endregion
 
     // region Handle Accessors
 
@@ -81,8 +152,8 @@ public final class PlayerController implements MonoBehaviour {
         return this.profile.rotate.apply(this.handle);
     }
 
-    public double fixedPower() {
-        return this.profile.getFixedPower();
+    public double intakePower() {
+        return this.profile.intakePower.apply(this.handle);
     }
 
     public double launchPower() {
@@ -103,7 +174,7 @@ public final class PlayerController implements MonoBehaviour {
         this.handle.readButtons();
 
         if (this.handle.isDown(Button.B)) {
-            this.profile = Constants.DRIVE_FLYSKY;
+            this.profile = DriverProfile.FLYSKY;
         } else if (this.handle.isDown(Button.A)) {
             this.profile = DriverProfile.DEFAULT;
         }

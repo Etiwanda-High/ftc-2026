@@ -19,10 +19,10 @@ public final class MecanumDrivetrain {
     private final MecanumDrive handle;
 
     /**
-     * When enabled, the inputs will be based on the robot's current heading.
+     * When disabled, the inputs will be based on the robot's current heading.
      */
     @Setter
-    private boolean relativeDrive = false;
+    private boolean absoluteDrive = false;
 
     /**
      * The maximum speed of the drivetrain (0.0 - 1.0).
@@ -42,7 +42,7 @@ public final class MecanumDrivetrain {
         val frontRight = new Motor(hwMap, Constants.DRIVE_FRONT_RIGHT);
         val backLeft = new Motor(hwMap, Constants.DRIVE_BACK_LEFT);
         val backRight = new Motor(hwMap, Constants.DRIVE_BACK_RIGHT);
-        this.handle = new MecanumDrive(frontLeft, frontRight, backLeft, backRight);
+        this.handle = new MecanumDrive(false, frontLeft, frontRight, backLeft, backRight);
     }
 
     /**
@@ -59,7 +59,7 @@ public final class MecanumDrivetrain {
 
         this.telemetry.addLine("\nDrivetrain:");
         this.telemetry.addData("- Max Speed", this.maxSpeed);
-        this.telemetry.addData("- Relative Drive", this.relativeDrive);
+        this.telemetry.addData("- Absolute Drive", this.absoluteDrive);
     }
 
     /**
@@ -68,7 +68,7 @@ public final class MecanumDrivetrain {
      * @param gamepad Gamepad to read input from.
      */
     public void input(GamepadEx gamepad, DriverProfile profile) {
-        if (this.relativeDrive) {
+        if (this.absoluteDrive) {
             // driveRobotCentric: Robot-centric assumes that each push of the joystick is in relation to the local position
             // of the robot—this means that whenever the user pushes the drive stick forward, the robot will drive in the
             // direction of its front-facing side.

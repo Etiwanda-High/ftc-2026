@@ -24,7 +24,7 @@ public final class DriveSystem extends SubsystemBase {
      * When enabled, the inputs will be based on the robot's current heading.
      */
     @Setter
-    private boolean relativeDrive = false;
+    private boolean relativeDrive = true;
 
     /**
      * The maximum speed of the drivetrain (0.0 - 1.0).
@@ -60,7 +60,9 @@ public final class DriveSystem extends SubsystemBase {
      * @param rotate The rotation amount.
      */
     public void input(double translateX, double translateY, double rotate) {
-        if (this.relativeDrive) {
+        // Stop the motor if all values are 0.
+
+        if (!this.relativeDrive) {
             var heading = this.gameManager.getLocale().getHeading();
 
             // driveFieldCentric: Field-centric assumes that each push of the joystick is in relation to the global position
@@ -76,6 +78,12 @@ public final class DriveSystem extends SubsystemBase {
     }
 
     // region Accessors
+
+    /** Inverts the right motor array. */
+    public void invert() {
+        val isInverted = this.handle.isRightSideInverted();
+        this.handle.setRightSideInverted(!isInverted);
+    }
 
     /** Simple accessor to increase drive speed. */
     public void increaseSpeed() {
@@ -99,6 +107,7 @@ public final class DriveSystem extends SubsystemBase {
         this.telemetry.addLine("\nDrivetrain:");
         this.telemetry.addData("- Max Speed", this.maxSpeed);
         this.telemetry.addData("- Relative Drive", this.relativeDrive);
+        this.telemetry.addData("- Right invert?", this.handle.isRightSideInverted());
     }
 
     // endregion

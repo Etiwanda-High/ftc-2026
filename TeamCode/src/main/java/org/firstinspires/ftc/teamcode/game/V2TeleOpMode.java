@@ -30,7 +30,8 @@ public final class V2TeleOpMode extends CommandOpMode {
         this.register(
             this.gameManager.getDrive(),
             this.gameManager.getLocale(),
-            this.gameManager.getLaunch()
+            this.gameManager.getLaunch(),
+            this.gameManager.getIntake()
         );
     }
 

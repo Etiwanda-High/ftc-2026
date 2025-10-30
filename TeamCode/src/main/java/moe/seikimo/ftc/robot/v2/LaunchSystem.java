@@ -38,6 +38,13 @@ public final class LaunchSystem extends SubsystemBase {
     }
 
     /**
+     * Stops the launcher motor.
+     */
+    public void stop() {
+        this.motor.stopMotor();
+    }
+
+    /**
      * Performs one launch cycle, including recovery time.
      */
     public void launch() {

@@ -5,13 +5,14 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.command.InstantCommand;
-import com.seattlesolvers.solverslib.command.PerpetualCommand;
 import com.seattlesolvers.solverslib.command.RunCommand;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import moe.seikimo.ftc.Constants;
+import moe.seikimo.ftc.DriverProfile;
 import moe.seikimo.ftc.robot.v2.*;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -31,6 +32,7 @@ public final class GameManager implements MonoBehaviour {
     private Localization locale;
     private DriveSystem drive;
     private LaunchSystem launch;
+    private IntakeSystem intake;
 
     /** Reads the hardware map. */
     private void configureHardware() {
@@ -40,6 +42,7 @@ public final class GameManager implements MonoBehaviour {
         this.locale = new Localization(this);
         this.drive = new DriveSystem(this);
         this.launch = new LaunchSystem(this);
+        this.intake = new IntakeSystem(this);
     }
 
     /** Adds command bindings for driver controllers. */
@@ -53,21 +56,47 @@ public final class GameManager implements MonoBehaviour {
         this.driver
             .button(Button.Y)
             .whenPressed(() -> this.controller.superPressed(this.locale::resetYaw));
+
+        this.driver
+            .button(Button.START)
+            .whenPressed(this.drive::invert);
+
         this.driver.awake();
     }
 
     /** Adds command bindings for controller gamepads. */
     private void configureControllerCommands() {
         this.controller
-            .button(Button.RIGHT_BUMPER)
-            .whenHeld(new RunCommand(() -> this.launch.input(this.controller.fixedPower()), this.launch))
-            .whenReleased(new InstantCommand(() -> this.launch.input(0), this.launch));
+            .launch(
+                DriverProfile.LAUNCH_CLOSE,
+                new RunCommand(() -> this.launch.input(Constants.LAUNCH_POWER_CLOSE), this.launch),
+                new InstantCommand(() -> this.launch.stop(), this.launch)
+            )
+            .launch(
+                DriverProfile.LAUNCH_FAR,
+                new RunCommand(() -> this.launch.input(Constants.LAUNCH_POWER_FAR), this.launch),
+                new InstantCommand(() -> this.launch.stop(), this.launch)
+            );
 
-//        this.launch.setDefaultCommand(
-//            new PerpetualCommand(
-//                new RunCommand(() -> this.launch.input(this.controller.launchPower()), this.launch)
-//            )
-//        );
+        this.controller
+            .intake(
+                DriverProfile.INTAKE_TOGGLE,
+                new RunCommand(this.intake::start, this.intake),
+                new InstantCommand(this.intake::stop, this.intake)
+            )
+            .intake(
+                DriverProfile.INTAKE_REVERSE,
+                new RunCommand(this.intake::reverse, this.intake),
+                new InstantCommand(this.intake::stop, this.intake)
+            )
+            .intake(
+                DriverProfile.INTAKE_INCREASE,
+                new InstantCommand(this.intake::increaseSpeed, this.intake)
+            )
+            .intake(
+                DriverProfile.INTAKE_DECREASE,
+                new InstantCommand(this.intake::decreaseSpeed, this.intake)
+            );
 
         this.controller.awake();
     }

@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
-import moe.seikimo.ftc.Constants;
 import moe.seikimo.ftc.DriverProfile;
 import moe.seikimo.ftc.robot.v1.Localization;
 import moe.seikimo.ftc.robot.v1.MecanumDrivetrain;
@@ -33,7 +32,6 @@ public final class V1TeleOpMode extends OpMode {
         // Configure drivetrain.
         this.locale = new Localization(this.telemetry, this.hardwareMap);
         this.drive = new MecanumDrivetrain(this.telemetry, this.locale, this.hardwareMap);
-        this.drive.setRelativeDrive(true);
 
         this.motor = new Motor(this.hardwareMap, "intake");
     }
@@ -101,7 +99,7 @@ public final class V1TeleOpMode extends OpMode {
      */
     private DriverProfile updateProfile(GamepadEx gamepad, DriverProfile current) {
         if (gamepad.wasJustPressed(Button.B)) {
-            return Constants.DRIVE_FLYSKY;
+            return DriverProfile.FLYSKY;
         }
         if (gamepad.wasJustPressed(Button.A)) {
             return DriverProfile.DEFAULT;

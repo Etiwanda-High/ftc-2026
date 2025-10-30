@@ -8,9 +8,6 @@ import com.pedropathing.ftc.localization.constants.OTOSConstants;
 import com.pedropathing.paths.PathConstraints;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.seattlesolvers.solverslib.gamepad.GamepadEx;
-import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;
-import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Trigger;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
@@ -22,16 +19,11 @@ import java.util.function.Function;
  * Includes constants for Pedro Pathing.
  */
 public interface Constants {
-    // region Driver Profiles
-    DriverProfile DRIVE_FLYSKY = DriverProfile.builder()
-        .name("FlySky")
-        .superButton(Button.BACK)
-        .fixedPower(0.75)
-        .translateY(GamepadEx::getRightY)
-        .translateX(GamepadEx::getLeftX)
-        .rotate(g -> -g.getRightX())
-        .launchPower(g -> g.getTrigger(Trigger.RIGHT_TRIGGER))
-        .build();
+    // region Launch Constants
+
+    double LAUNCH_POWER_CLOSE = 0.6;
+    double LAUNCH_POWER_FAR = 0.75;
+
     // endregion
 
     // region Hardware Map & Sensor Constants
