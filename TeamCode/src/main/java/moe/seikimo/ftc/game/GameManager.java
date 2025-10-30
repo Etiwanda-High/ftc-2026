@@ -86,8 +86,9 @@ public final class GameManager implements MonoBehaviour {
 
         this.controller
             .intake(
-                DriverProfile.INTAKE_TOGGLE,
-                new RunCommand(this.intake::toggle, this.intake)
+                DriverProfile.INTAKE_FORWARD,
+                new RunCommand(this.intake::start, this.intake),
+                new InstantCommand(this.intake::stop, this.intake)
             )
             .intake(
                 DriverProfile.INTAKE_REVERSE,

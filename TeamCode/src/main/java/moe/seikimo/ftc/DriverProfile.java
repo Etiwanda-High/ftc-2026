@@ -12,10 +12,10 @@ import java.util.function.Function;
 @Builder
 public final class DriverProfile {
     public static final Button
-        LAUNCH_CLOSE = Button.X,
-        LAUNCH_FAR = Button.Y;
+        LAUNCH_CLOSE = Button.Y,
+        LAUNCH_FAR = Button.B;
     public static final Button
-        INTAKE_TOGGLE = Button.B,
+        INTAKE_FORWARD = Button.X,
         INTAKE_REVERSE = Button.A,
         INTAKE_INCREASE = Button.DPAD_UP,
         INTAKE_DECREASE = Button.DPAD_DOWN;
@@ -44,7 +44,7 @@ public final class DriverProfile {
         .intakeModifier(Button.LEFT_BUMPER)
         .launchModifier(Button.RIGHT_BUMPER)
         // Drive controls.
-        .translateY(GamepadEx::getRightY)
+        .translateY(g -> -g.getRightY())
         .translateX(g -> -g.getRightX())
         .rotate(GamepadEx::getLeftX)
         // Analog inputs.
