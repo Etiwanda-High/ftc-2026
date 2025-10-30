@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.val;
 import moe.seikimo.ftc.DriverProfile;
+import moe.seikimo.ftc.game.commands.ConditionalRunCommand;
 
 @RequiredArgsConstructor
 public final class PlayerController implements MonoBehaviour {
@@ -53,6 +54,16 @@ public final class PlayerController implements MonoBehaviour {
         }
     }
 
+    /** @return True if the intake modifier is down. */
+    public boolean intake() {
+        return this.handle.isDown(this.profile.intakeModifier);
+    }
+
+    /** @return True if the launch modifier is down. */
+    public boolean launch() {
+        return this.handle.isDown(this.profile.launchModifier);
+    }
+
     /**
      * Adds a binding for the intake action.
      *
@@ -75,10 +86,10 @@ public final class PlayerController implements MonoBehaviour {
     public PlayerController intake(Button button, Command press, Command release) {
         val handle = this.button(button);
         if (press != null) {
-            handle.whenHeld(press, true);
+            handle.whenHeld(new ConditionalRunCommand(this::intake, press), true);
         }
         if (release != null) {
-            handle.whenReleased(release, false);
+            handle.whenReleased(new ConditionalRunCommand(this::intake, release), false);
         }
         return this;
     }
@@ -93,8 +104,8 @@ public final class PlayerController implements MonoBehaviour {
      */
     public PlayerController launch(Button button, Command press, Command release) {
         this.button(button)
-            .whenHeld(press, true)
-            .whenReleased(release, false);
+            .whenHeld(new ConditionalRunCommand(this::launch, press), true)
+            .whenReleased(new ConditionalRunCommand(this::launch, release), false);
         return this;
     }
 

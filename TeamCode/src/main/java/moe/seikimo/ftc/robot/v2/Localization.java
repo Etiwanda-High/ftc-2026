@@ -80,6 +80,13 @@ public final class Localization extends SubsystemBase {
         ));
     }
 
+    /**
+     * Resets the OTOS tracking.
+     */
+    public void reset() {
+        this.otos.resetTracking();
+    }
+
     // region Subsystem Implementation
 
     @Override

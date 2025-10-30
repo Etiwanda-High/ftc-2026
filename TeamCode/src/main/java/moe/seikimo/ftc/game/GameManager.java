@@ -60,6 +60,12 @@ public final class GameManager implements MonoBehaviour {
         this.driver
             .button(Button.START)
             .whenPressed(this.drive::invert);
+        this.driver
+            .button(Button.LEFT_STICK_BUTTON)
+            .whenPressed(this.locale::resetYaw);
+        this.driver
+            .button(Button.RIGHT_STICK_BUTTON)
+            .whenPressed(this.locale::reset);
 
         this.driver.awake();
     }
@@ -81,8 +87,7 @@ public final class GameManager implements MonoBehaviour {
         this.controller
             .intake(
                 DriverProfile.INTAKE_TOGGLE,
-                new RunCommand(this.intake::start, this.intake),
-                new InstantCommand(this.intake::stop, this.intake)
+                new RunCommand(this.intake::toggle, this.intake)
             )
             .intake(
                 DriverProfile.INTAKE_REVERSE,

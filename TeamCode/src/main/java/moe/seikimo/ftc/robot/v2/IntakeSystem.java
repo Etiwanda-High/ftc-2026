@@ -55,6 +55,15 @@ public final class IntakeSystem extends SubsystemBase {
         this.speed = Math.min(0.0, this.speed - 0.1);
     }
 
+    /** Toggles the intake. */
+    public void toggle() {
+        if (this.running) {
+            this.stop();
+        } else {
+            this.start();
+        }
+    }
+
     /** Starts the intake system. */
     public void start() {
         this.running = true;

@@ -100,6 +100,13 @@ public final class DriveSystem extends SubsystemBase {
     // region Subsystem Implementation
 
     @Override
+    public void register() {
+        super.register();
+
+        this.handle.setRightSideInverted(false);
+    }
+
+    @Override
     public void periodic() {
         this.follower.update();
         this.handle.setMaxSpeed(this.maxSpeed);

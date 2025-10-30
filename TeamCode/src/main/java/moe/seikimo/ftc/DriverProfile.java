@@ -29,8 +29,8 @@ public final class DriverProfile {
         .launchModifier(Button.RIGHT_BUMPER)
         // Drive controls.
         .translateY(GamepadEx::getLeftY)
-        .translateX(GamepadEx::getLeftX)
-        .rotate(g -> -g.getRightX())
+        .translateX(g -> -g.getLeftX())
+        .rotate(GamepadEx::getRightX)
         // Analog inputs.
         .intakePower(g -> g.getTrigger(Trigger.LEFT_TRIGGER))
         .launchPower(g -> g.getTrigger(Trigger.RIGHT_TRIGGER))
@@ -45,8 +45,8 @@ public final class DriverProfile {
         .launchModifier(Button.RIGHT_BUMPER)
         // Drive controls.
         .translateY(GamepadEx::getRightY)
-        .translateX(GamepadEx::getLeftX)
-        .rotate(g -> -g.getRightX())
+        .translateX(g -> -g.getRightX())
+        .rotate(GamepadEx::getLeftX)
         // Analog inputs.
         .intakePower(g -> g.getTrigger(Trigger.LEFT_TRIGGER))
         .launchPower(g -> g.getTrigger(Trigger.RIGHT_TRIGGER))

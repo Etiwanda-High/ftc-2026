@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import moe.seikimo.ftc.game.GameManager;
+import moe.seikimo.ftc.game.commands.DriveDistanceCommand;
 import moe.seikimo.ftc.robot.v2.DriveSystem;
 
 @Autonomous(name = "V2 Auto", group = "Game")
@@ -21,11 +22,14 @@ public final class V2AutoOpMode extends CommandOpMode {
         this.telemetry.update();
 
         this.schedule(
-            new SequentialCommandGroup()
+            new SequentialCommandGroup(
+                new DriveDistanceCommand(this.gameManager, 0, 0.5)
+                    .withTimeout(2000)
+            )
         );
 
         this.register(
-            new DriveSystem(this.gameManager)
+            this.gameManager.getDrive()
         );
     }
 
