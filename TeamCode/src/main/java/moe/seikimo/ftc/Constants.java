@@ -21,8 +21,8 @@ import java.util.function.Function;
 public interface Constants {
     // region Launch Constants
 
-    double LAUNCH_POWER_CLOSE = 0.6;
-    double LAUNCH_POWER_FAR = 0.75;
+    double LAUNCH_POWER_CLOSE = 0.7;
+    double LAUNCH_POWER_FAR = 0.79;
 
     // endregion
 

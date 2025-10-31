@@ -8,8 +8,6 @@ public final class DriveDistanceCommand extends CommandBase {
     private final DriveSystem drive;
     private final double x, y;
 
-    private boolean finished = false;
-
     /**
      * Drives a distance.
      *
@@ -35,10 +33,5 @@ public final class DriveDistanceCommand extends CommandBase {
     @Override
     public void execute() {
         this.drive.input(this.x, this.y, 0);
-    }
-
-    @Override
-    public boolean isFinished() {
-        return this.finished;
     }
 }

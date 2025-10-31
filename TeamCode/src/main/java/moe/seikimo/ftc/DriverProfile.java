@@ -12,13 +12,13 @@ import java.util.function.Function;
 @Builder
 public final class DriverProfile {
     public static final Button
-        LAUNCH_CLOSE = Button.Y,
-        LAUNCH_FAR = Button.B;
+        SET_SPEED_CLOSE = Button.Y,
+        SET_SPEED_FAR = Button.B;
     public static final Button
-        INTAKE_FORWARD = Button.X,
-        INTAKE_REVERSE = Button.A,
-        INTAKE_INCREASE = Button.DPAD_UP,
-        INTAKE_DECREASE = Button.DPAD_DOWN;
+        LAUNCH_TOGGLE = Button.RIGHT_BUMPER,
+        LAUNCH_REVERSE = Button.LEFT_BUMPER,
+        LAUNCH_SPEED_INCREASE = Button.DPAD_UP,
+        LAUNCH_SPEED_DECREASE = Button.DPAD_DOWN;
 
     /** The default driver profile. */
     public static final DriverProfile DEFAULT = DriverProfile.builder()
@@ -32,8 +32,8 @@ public final class DriverProfile {
         .translateX(g -> -g.getLeftX())
         .rotate(GamepadEx::getRightX)
         // Analog inputs.
-        .intakePower(g -> g.getTrigger(Trigger.LEFT_TRIGGER))
-        .launchPower(g -> g.getTrigger(Trigger.RIGHT_TRIGGER))
+        .intakePower(g -> g.getTrigger(Trigger.RIGHT_TRIGGER))
+        .intakeReverse(g -> g.getTrigger(Trigger.LEFT_TRIGGER))
         .build();
 
     /** The FlySky-like driver profile. */
@@ -48,8 +48,8 @@ public final class DriverProfile {
         .translateX(g -> -g.getRightX())
         .rotate(GamepadEx::getLeftX)
         // Analog inputs.
-        .intakePower(g -> g.getTrigger(Trigger.LEFT_TRIGGER))
-        .launchPower(g -> g.getTrigger(Trigger.RIGHT_TRIGGER))
+        .intakePower(g -> g.getTrigger(Trigger.RIGHT_TRIGGER))
+        .intakeReverse(g -> g.getTrigger(Trigger.LEFT_TRIGGER))
         .build();
 
     private final String name;
@@ -61,5 +61,5 @@ public final class DriverProfile {
         translateY, translateX, rotate;
 
     public final Function<GamepadEx, Double>
-        intakePower, launchPower;
+        intakePower, intakeReverse;
 }

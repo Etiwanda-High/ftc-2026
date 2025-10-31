@@ -86,7 +86,9 @@ public final class IntakeSystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        this.input(this.controller.intakePower());
+        this.input(
+            this.controller.intakePower() - this.controller.intakeReverse()
+        );
 
         this.telemetry.addLine("\nIntake:");
         this.telemetry.addData("- Motor Power", this.motor.get());

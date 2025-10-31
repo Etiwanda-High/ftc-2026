@@ -5,7 +5,6 @@ import com.seattlesolvers.solverslib.command.CommandOpMode;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import moe.seikimo.ftc.game.GameManager;
 import moe.seikimo.ftc.game.commands.DriveDistanceCommand;
-import moe.seikimo.ftc.robot.v2.DriveSystem;
 
 @Autonomous(name = "V2 Auto", group = "Game")
 public final class V2AutoOpMode extends CommandOpMode {
@@ -23,14 +22,16 @@ public final class V2AutoOpMode extends CommandOpMode {
 
         this.schedule(
             new SequentialCommandGroup(
-                new DriveDistanceCommand(this.gameManager, 0, 0.5)
-                    .withTimeout(2000)
+                new DriveDistanceCommand(this.gameManager, 0, 0.3)
+                    .withTimeout(3000)
             )
         );
 
         this.register(
             this.gameManager.getDrive()
         );
+
+        this.gameManager.getDrive().invert();
     }
 
     @Override

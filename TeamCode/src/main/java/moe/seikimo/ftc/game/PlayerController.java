@@ -167,8 +167,8 @@ public final class PlayerController implements MonoBehaviour {
         return this.profile.intakePower.apply(this.handle);
     }
 
-    public double launchPower() {
-        return this.profile.launchPower.apply(this.handle);
+    public double intakeReverse() {
+        return this.profile.intakeReverse.apply(this.handle);
     }
 
     // endregion

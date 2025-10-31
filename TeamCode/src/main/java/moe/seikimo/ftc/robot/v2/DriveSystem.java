@@ -47,6 +47,13 @@ public final class DriveSystem extends SubsystemBase {
         val frontRight = new Motor(hwMap, Constants.DRIVE_FRONT_RIGHT);
         val backLeft = new Motor(hwMap, Constants.DRIVE_BACK_LEFT);
         val backRight = new Motor(hwMap, Constants.DRIVE_BACK_RIGHT);
+
+        // TODO: make it better
+        frontLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+
         this.handle = new MecanumDrive(frontLeft, frontRight, backLeft, backRight);
 
         this.follower = Constants.FOLLOWER_FACTORY.apply(hwMap);
@@ -75,6 +82,13 @@ public final class DriveSystem extends SubsystemBase {
             // direction of its front-facing side.
             this.handle.driveRobotCentric(translateX, translateY, rotate);
         }
+    }
+
+    /**
+     * Stops the drivetrain.
+     */
+    public void stop() {
+        this.handle.stop();
     }
 
     // region Accessors

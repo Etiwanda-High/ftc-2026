@@ -4,14 +4,11 @@ import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.seattlesolvers.solverslib.command.InstantCommand;
-import com.seattlesolvers.solverslib.command.RunCommand;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import moe.seikimo.ftc.Constants;
 import moe.seikimo.ftc.DriverProfile;
 import moe.seikimo.ftc.robot.v2.*;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -72,37 +69,30 @@ public final class GameManager implements MonoBehaviour {
 
     /** Adds command bindings for controller gamepads. */
     private void configureControllerCommands() {
+        // region Button Controls
         this.controller
-            .launch(
-                DriverProfile.LAUNCH_CLOSE,
-                new RunCommand(() -> this.launch.input(Constants.LAUNCH_POWER_CLOSE), this.launch),
-                new InstantCommand(() -> this.launch.stop(), this.launch)
-            )
-            .launch(
-                DriverProfile.LAUNCH_FAR,
-                new RunCommand(() -> this.launch.input(Constants.LAUNCH_POWER_FAR), this.launch),
-                new InstantCommand(() -> this.launch.stop(), this.launch)
-            );
+            .button(DriverProfile.SET_SPEED_CLOSE)
+            .whenPressed(this.launch::speedClose);
+        this.controller
+            .button(DriverProfile.SET_SPEED_FAR)
+            .whenPressed(this.launch::speedFar);
+        this.controller
+            .button(DriverProfile.LAUNCH_SPEED_INCREASE)
+            .whenPressed(this.launch::speedUp);
+        this.controller
+            .button(DriverProfile.LAUNCH_SPEED_DECREASE)
+            .whenPressed(this.launch::speedDown);
+        // endregion
 
+        // region Triggers
         this.controller
-            .intake(
-                DriverProfile.INTAKE_FORWARD,
-                new RunCommand(this.intake::start, this.intake),
-                new InstantCommand(this.intake::stop, this.intake)
-            )
-            .intake(
-                DriverProfile.INTAKE_REVERSE,
-                new RunCommand(this.intake::reverse, this.intake),
-                new InstantCommand(this.intake::stop, this.intake)
-            )
-            .intake(
-                DriverProfile.INTAKE_INCREASE,
-                new InstantCommand(this.intake::increaseSpeed, this.intake)
-            )
-            .intake(
-                DriverProfile.INTAKE_DECREASE,
-                new InstantCommand(this.intake::decreaseSpeed, this.intake)
-            );
+            .button(DriverProfile.LAUNCH_TOGGLE)
+            .whenPressed(this.launch::toggle);
+        this.controller
+            .button(DriverProfile.LAUNCH_REVERSE)
+            .whenPressed(() -> this.launch.setReverse(true))
+            .whenReleased(() -> this.launch.setReverse(false));
+        // endregion
 
         this.controller.awake();
     }
