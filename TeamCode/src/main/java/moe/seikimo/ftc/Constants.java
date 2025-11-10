@@ -30,7 +30,12 @@ public interface Constants {
     String MOTOR_LAUNCH = "launcher";
     String MOTOR_INTAKE = "intake";
 
-    String SENSOR_LIMELIGHT = "limelight";
+    String SERVO_NUH = "nuh";
+    float SERVO_DOOR_OPENED = 0.65f;
+    float SERVO_DOOR_CLOSED = 0.35f;
+    String SERVO_UH = "uh";
+
+    String SENSOR_LIMELIGHT = "Limelight";
     int LIMELIGHT_POLL_RATE = 100;
 
     String SENSOR_IMU = "imu";
@@ -48,6 +53,7 @@ public interface Constants {
 
     MecanumConstants DRIVE = new MecanumConstants()
         .maxPower(1)
+        .useBrakeModeInTeleOp(true)
         .rightFrontMotorName(DRIVE_FRONT_RIGHT)
         .leftFrontMotorName(DRIVE_FRONT_LEFT)
         .rightRearMotorName(DRIVE_BACK_RIGHT)

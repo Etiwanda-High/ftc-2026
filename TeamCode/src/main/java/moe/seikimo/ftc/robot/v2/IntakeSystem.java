@@ -2,6 +2,9 @@ package moe.seikimo.ftc.robot.v2;
 
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
+import com.seattlesolvers.solverslib.hardware.servos.ServoEx;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.val;
 import moe.seikimo.ftc.Constants;
 import moe.seikimo.ftc.game.GameManager;
@@ -15,10 +18,17 @@ public final class IntakeSystem extends SubsystemBase {
     private final PlayerController controller;
     private final Motor motor;
 
+    private final ServoEx nuh, uh;
+
     /** Controls whether the intake is operating or not. */
     private boolean running = false;
+    /** Flag for the gate's open state. */
+    private boolean gateOpen = false;
     /** The speed to operate the motor at. */
     private double speed = 1f;
+
+    @Setter @Getter
+    private boolean useNuh = true;
 
     /**
      * Creates a new instance of the intake system.
@@ -33,6 +43,10 @@ public final class IntakeSystem extends SubsystemBase {
 
         val hwMap = gameManager.getHwMap();
         this.motor = new Motor(hwMap, Constants.MOTOR_INTAKE);
+
+        this.nuh = new ServoEx(hwMap, Constants.SERVO_NUH);
+        this.uh = new ServoEx(hwMap, Constants.SERVO_UH);
+        this.uh.setInverted(true);
     }
 
     /**
@@ -82,6 +96,28 @@ public final class IntakeSystem extends SubsystemBase {
         this.motor.stopMotor();
     }
 
+    /** Toggles the ball intake gate. */
+    public void toggleGate() {
+        if (this.gateOpen) {
+            this.closeGate();
+        } else {
+            this.openGate();
+        }
+        this.gateOpen = !this.gateOpen;
+    }
+
+    /** Opens the ball intake gate. */
+    public void openGate() {
+        this.nuh.set(Constants.SERVO_DOOR_OPENED);
+        this.uh.set(Constants.SERVO_DOOR_OPENED);
+    }
+
+    /** Closes the ball intake gate. */
+    public void closeGate() {
+        this.nuh.set(Constants.SERVO_DOOR_CLOSED);
+        this.uh.set(Constants.SERVO_DOOR_CLOSED);
+    }
+
     // region Subsystem Implementation
 
     @Override
@@ -94,6 +130,10 @@ public final class IntakeSystem extends SubsystemBase {
         this.telemetry.addData("- Motor Power", this.motor.get());
         this.telemetry.addData("- Max Speed", this.speed);
         this.telemetry.addData("- Auto Running?", this.running);
+        this.telemetry.addLine();
+        this.telemetry.addData("- Gate Open?", this.gateOpen);
+        this.telemetry.addData("- Nuh Position", this.nuh.get());
+        this.telemetry.addData("- Uh Position", this.uh.get());
     }
 
     // endregion

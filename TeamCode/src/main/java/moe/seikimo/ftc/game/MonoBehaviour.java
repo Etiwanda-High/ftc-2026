@@ -7,7 +7,7 @@ public interface MonoBehaviour {
     /**
      * Called once when the op mode is initialized.
      */
-    void awake();
+    default void awake() {}
 
     /**
      * Called every loop cycle while the op mode is in the init phase.
@@ -15,9 +15,14 @@ public interface MonoBehaviour {
     default void preUpdate() {}
 
     /**
+     * Called once the op mode is started.
+     */
+    default void start() {}
+
+    /**
      * Called every loop cycle while the op mode is active.
      */
-    void update();
+    default void update() {}
 
     /**
      * Called when the op mode is stopped.

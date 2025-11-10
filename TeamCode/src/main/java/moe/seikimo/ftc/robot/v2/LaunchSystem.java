@@ -31,7 +31,6 @@ public final class LaunchSystem extends SubsystemBase {
         this.telemetry = gameManager.getTelemetry();
 
         this.motor = new Motor(gameManager.getHwMap(), Constants.MOTOR_LAUNCH);
-        this.motor.setInverted(true);
     }
 
     // region Setters

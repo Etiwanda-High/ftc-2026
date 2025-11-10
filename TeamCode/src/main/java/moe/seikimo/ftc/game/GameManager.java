@@ -1,16 +1,14 @@
 package moe.seikimo.ftc.game;
 
-import com.bylazar.telemetry.PanelsTelemetry;
-import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
 import moe.seikimo.ftc.DriverProfile;
 import moe.seikimo.ftc.robot.v2.*;
+import moe.seikimo.ftc.utils.LoggerV1;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
@@ -19,8 +17,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Getter
 @RequiredArgsConstructor
 public final class GameManager implements MonoBehaviour {
-    private final TelemetryManager panels = PanelsTelemetry.INSTANCE.getTelemetry();
     private final Telemetry telemetry;
+    private final LoggerV1 logger = new LoggerV1(this);
 
     private final HardwareMap hwMap;
     private final Gamepad gp1, gp2;
@@ -55,9 +53,6 @@ public final class GameManager implements MonoBehaviour {
             .whenPressed(() -> this.controller.superPressed(this.locale::resetYaw));
 
         this.driver
-            .button(Button.START)
-            .whenPressed(this.drive::invert);
-        this.driver
             .button(Button.LEFT_STICK_BUTTON)
             .whenPressed(this.locale::resetYaw);
         this.driver
@@ -82,6 +77,13 @@ public final class GameManager implements MonoBehaviour {
         this.controller
             .button(DriverProfile.LAUNCH_SPEED_DECREASE)
             .whenPressed(this.launch::speedDown);
+
+        this.controller
+            .button(DriverProfile.INTAKE_GATE_TOGGLE)
+            .whenPressed(this.intake::toggleGate);
+        this.controller
+            .button(Button.A)
+            .whenPressed(() -> this.intake.setUseNuh(!this.intake.isUseNuh()));
         // endregion
 
         // region Triggers
@@ -97,30 +99,6 @@ public final class GameManager implements MonoBehaviour {
         this.controller.awake();
     }
 
-    // region Telemetry Extensions
-
-    /**
-     * Adds a formatted log entry to telemetry.
-     *
-     * @param caption The caption for the log entry.
-     * @param args The arguments to format into the caption.
-     * @return The game manager instance.
-     */
-    public GameManager log(String caption, String message, Object... args) {
-        if (args.length == 0) {
-            this.telemetry.addData(caption, message);
-            this.panels.debug(String.format("%s: %s", caption, message));
-        } else {
-            val formatted = String.format(message, args);
-            this.telemetry.addData(caption, formatted);
-            this.panels.debug(String.format("%s: %s", caption, formatted));
-        }
-
-        return this;
-    }
-
-    // endregion
-
     // region MonoBehavior Implementation
 
     @Override
@@ -130,6 +108,8 @@ public final class GameManager implements MonoBehaviour {
         this.configureHardware();
         this.configureDriverCommands();
         this.configureControllerCommands();
+
+        this.drive.awake();
     }
 
     @Override
@@ -143,20 +123,49 @@ public final class GameManager implements MonoBehaviour {
         this.telemetry.addLine("Press [A] for Default profile.");
         this.telemetry.addLine("Press [B] for FlySky profile.");
 
-        this.telemetry.update();
-
+        // Update controllers.
         this.driver.preUpdate();
         this.controller.preUpdate();
-        this.panels.update();
+
+        // Update systems.
+        this.drive.preUpdate();
+
+        // Update telemetry.
+        this.logger.push();
+    }
+
+    @Override
+    public void start() {
+        // Start controllers.
+        this.driver.start();
+        this.controller.start();
+
+        // Start systems.
+        this.drive.start();
+
+        // Update telemetry.
+        this.logger.push();
     }
 
     @Override
     public void update() {
         this.telemetry.addData("Status", "Running");
 
+        // Update controllers.
         this.driver.update();
         this.controller.update();
-        this.panels.update();
+
+        // NOTE: Systems do not get updated.
+        //       They are configured to receive `periodic()` calls from the CommandScheduler.
+        this.drive.input(
+            this.driver.translateX(),
+            this.driver.translateY(),
+            -this.driver.rotate()
+        );
+        this.drive.update();
+
+        // Update telemetry.
+        this.logger.push();
     }
 
     // endregion

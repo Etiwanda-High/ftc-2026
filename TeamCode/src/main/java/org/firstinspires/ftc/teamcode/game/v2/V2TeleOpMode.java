@@ -1,20 +1,37 @@
-package org.firstinspires.ftc.teamcode.game;
+package org.firstinspires.ftc.teamcode.game.v2;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.seattlesolvers.solverslib.command.CommandOpMode;
-import com.seattlesolvers.solverslib.command.PerpetualCommand;
-import com.seattlesolvers.solverslib.command.Robot;
+import com.seattlesolvers.solverslib.command.*;
 import moe.seikimo.ftc.game.GameManager;
 import moe.seikimo.ftc.game.commands.RelativeDriveCommand;
 
 @TeleOp(name = "V2 TeleOp", group = "Game")
-public final class V2TeleOpMode extends CommandOpMode {
+public final class V2TeleOpMode extends OpMode {
     private GameManager gameManager;
+
+    // region Command System
+
+    /**
+     * Schedules {@link Command} objects to the scheduler
+     */
+    private void schedule(Command... commands) {
+        CommandScheduler.getInstance().schedule(commands);
+    }
+
+    /**
+     * Registers {@link Subsystem} objects to the scheduler
+     */
+    private void register(Subsystem... subsystems) {
+        CommandScheduler.getInstance().registerSubsystem(subsystems);
+    }
+
+    // endregion
 
     // region OpMode Implementation
 
     @Override
-    public void initialize() {
+    public void init() {
         Robot.enable();
 
         this.gameManager = new GameManager(
@@ -36,20 +53,25 @@ public final class V2TeleOpMode extends CommandOpMode {
     }
 
     @Override
-    public void initialize_loop() {
+    public void init_loop() {
         this.gameManager.preUpdate();
         this.telemetry.update();
     }
 
     @Override
-    public void run() {
+    public void start() {
+        this.gameManager.start();
+    }
+
+    @Override
+    public void loop() {
         this.gameManager.update();
-        super.run();
+        CommandScheduler.getInstance().run();
         this.telemetry.update();
     }
 
     @Override
-    public void end() {
+    public void stop() {
         this.gameManager.destroy();
         this.telemetry.update();
     }

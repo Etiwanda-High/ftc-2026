@@ -19,6 +19,8 @@ public final class DriverProfile {
         LAUNCH_REVERSE = Button.LEFT_BUMPER,
         LAUNCH_SPEED_INCREASE = Button.DPAD_UP,
         LAUNCH_SPEED_DECREASE = Button.DPAD_DOWN;
+    public static final Button
+        INTAKE_GATE_TOGGLE = Button.A;
 
     /** The default driver profile. */
     public static final DriverProfile DEFAULT = DriverProfile.builder()
@@ -29,7 +31,7 @@ public final class DriverProfile {
         .launchModifier(Button.RIGHT_BUMPER)
         // Drive controls.
         .translateY(GamepadEx::getLeftY)
-        .translateX(g -> -g.getLeftX())
+        .translateX(GamepadEx::getLeftX)
         .rotate(GamepadEx::getRightX)
         // Analog inputs.
         .intakePower(g -> g.getTrigger(Trigger.RIGHT_TRIGGER))
@@ -45,7 +47,7 @@ public final class DriverProfile {
         .launchModifier(Button.RIGHT_BUMPER)
         // Drive controls.
         .translateY(g -> -g.getRightY())
-        .translateX(g -> -g.getRightX())
+        .translateX(GamepadEx::getRightX)
         .rotate(GamepadEx::getLeftX)
         // Analog inputs.
         .intakePower(g -> g.getTrigger(Trigger.RIGHT_TRIGGER))

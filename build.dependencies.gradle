@@ -17,5 +17,10 @@ dependencies {
     // Lombok: a Java annotation utility library.
     compileOnly("org.projectlombok:lombok:1.18.40")
     annotationProcessor("org.projectlombok:lombok:1.18.40")
+
+    // Reflections: utilities for runtime metadata analysis.
+    implementation("org.reflections:reflections:0.10.2") {
+        exclude group: "org.slf4j", module: "slf4j-api"
+    }
 }
 

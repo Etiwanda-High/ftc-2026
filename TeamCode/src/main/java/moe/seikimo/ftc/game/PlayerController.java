@@ -14,7 +14,7 @@ import moe.seikimo.ftc.game.commands.ConditionalRunCommand;
 
 @RequiredArgsConstructor
 public final class PlayerController implements MonoBehaviour {
-    private final GamepadEx handle;
+    @Getter private final GamepadEx handle;
 
     /** The profile to use for adapting gamepad inputs into values. */
     @Getter @Setter private DriverProfile profile = DriverProfile.DEFAULT;

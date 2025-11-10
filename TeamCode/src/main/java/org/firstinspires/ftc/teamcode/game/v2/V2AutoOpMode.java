@@ -1,10 +1,8 @@
-package org.firstinspires.ftc.teamcode.game;
+package org.firstinspires.ftc.teamcode.game.v2;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
-import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 import moe.seikimo.ftc.game.GameManager;
-import moe.seikimo.ftc.game.commands.DriveDistanceCommand;
 
 @Autonomous(name = "V2 Auto", group = "Game")
 public final class V2AutoOpMode extends CommandOpMode {
@@ -20,18 +18,9 @@ public final class V2AutoOpMode extends CommandOpMode {
         this.gameManager.awake();
         this.telemetry.update();
 
-        this.schedule(
-            new SequentialCommandGroup(
-                new DriveDistanceCommand(this.gameManager, 0, 0.3)
-                    .withTimeout(3000)
-            )
-        );
-
         this.register(
             this.gameManager.getDrive()
         );
-
-        this.gameManager.getDrive().invert();
     }
 
     @Override

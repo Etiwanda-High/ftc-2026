@@ -47,10 +47,11 @@ public final class RelativeDriveCommand extends CommandBase {
         this.telemetry.addData("- Translate Y", this.translateY.getAsDouble());
         this.telemetry.addData("- Rotate", this.rotate.getAsDouble());
 
-        this.drive.input(
-            this.translateX.getAsDouble(),
-            this.translateY.getAsDouble(),
-            this.rotate.getAsDouble()
-        );
+//        this.drive.input(
+//            this.translateX.getAsDouble(),
+//            this.translateY.getAsDouble(),
+//            -this.rotate.getAsDouble()
+//        );
+//        this.drive.update();
     }
 }
