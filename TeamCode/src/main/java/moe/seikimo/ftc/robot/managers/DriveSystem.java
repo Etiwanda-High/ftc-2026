@@ -12,6 +12,7 @@ import moe.seikimo.ftc.utils.Logger;
 public final class DriveSystem implements MonoBehaviour {
     private final Logger logger;
     @Getter private final Follower follower;
+
     /** Dependency injection constructor. */
     public DriveSystem(Logger logger, HardwareMap hwMap) {
         this.logger = logger;
