@@ -4,8 +4,8 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import lombok.RequiredArgsConstructor;
 import moe.seikimo.ftc.Constants;
-import moe.seikimo.ftc.annotations.Hardware;
-import moe.seikimo.ftc.annotations.RobotSystem;
+import moe.seikimo.ftc.annotations.fields.Hardware;
+import moe.seikimo.ftc.annotations.types.RobotSystem;
 import moe.seikimo.ftc.game.MonoBehaviour;
 import moe.seikimo.ftc.utils.Logger;
 

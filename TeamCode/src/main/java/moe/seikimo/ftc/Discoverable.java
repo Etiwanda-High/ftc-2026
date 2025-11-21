@@ -5,18 +5,20 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import lombok.val;
 import lombok.var;
-import moe.seikimo.ftc.annotations.Controller;
-import moe.seikimo.ftc.annotations.Hardware;
-import moe.seikimo.ftc.annotations.RobotSystem;
+import moe.seikimo.ftc.annotations.fields.*;
+import moe.seikimo.ftc.annotations.types.*;
 import moe.seikimo.ftc.game.MonoBehaviour;
 import moe.seikimo.ftc.game.PlayerController;
+import moe.seikimo.ftc.robot.fsm.StateSystem;
 import moe.seikimo.ftc.robot.managers.DriveSystem;
 import moe.seikimo.ftc.robot.managers.LocalizationSystem;
 import moe.seikimo.ftc.robot.Robot;
+import moe.seikimo.ftc.robot.states.IdleState;
 import moe.seikimo.ftc.utils.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Set;
@@ -24,7 +26,12 @@ import java.util.Set;
 public interface Discoverable {
     Set<Class<?>> SYSTEMS = Set.of(
         DriveSystem.class,
-        LocalizationSystem.class
+        LocalizationSystem.class,
+        StateSystem.class
+    );
+
+    Set<Class<?>> STATES = Set.of(
+        IdleState.class
     );
 
     /**
@@ -32,7 +39,6 @@ public interface Discoverable {
      */
     default void discover() {
         val robot = this.asRobot();
-        val hwMap = robot.hardwareMap;
         val systems = robot.getSystems();
 
         SYSTEMS
@@ -45,60 +51,96 @@ public interface Discoverable {
             }))
             .forEach(type -> {
                 try {
-                    // Get the constructor and its parameters.
-                    Constructor<?> constructor = type.getDeclaredConstructors()[0];
-                    val paramTypes = constructor.getParameterTypes();
-                    val params = new Object[paramTypes.length];
-
-                    // Map the parameter instances.
-                    for (var i = 0; i < paramTypes.length; i++) {
-                        Class<?> paramType = paramTypes[i];
-                        if (paramType == HardwareMap.class) {
-                            params[i] = hwMap;
-                        } else if (paramType == Logger.class) {
-                            params[i] = robot.getLogger();
-                        } else if (paramType.isAssignableFrom(MonoBehaviour.class)) {
-                            params[i] = systems.get(paramType);
-                        } else {
-                            throw new RuntimeException("Unsupported constructor parameter: " + paramType.getName());
-                        }
-                    }
-
-                    // Instantiate the system and store it.
-                    val system = (MonoBehaviour) constructor.newInstance(params);
+                    // Instantiate the system.
+                    var system = (MonoBehaviour) this.instantiate(type);
                     systems.put(type, system);
-
-                    // Handle fields.
-                    for (Field field : type.getDeclaredFields()) {
-                        field.setAccessible(true);
-
-                        if (field.isAnnotationPresent(Hardware.class)) {
-                            val annotation = field.getAnnotation(Hardware.class);
-                            Objects.requireNonNull(annotation);
-
-                            val hardwareName = annotation.value();
-                            val hardwareDevice = hwMap.get(hardwareName);
-                            field.set(system, hardwareDevice);
-                        } else if (field.isAnnotationPresent(Controller.class)) {
-                            val annotation = field.getAnnotation(Controller.class);
-                            Objects.requireNonNull(annotation);
-
-                            val controllerId = annotation.value();
-                            if (field.getType() == Gamepad.class) {
-                                field.set(system, robot.getRawHandle(controllerId));
-                            } else if (field.getType() == GamepadEx.class) {
-                                field.set(system, robot.getControllerHandle(controllerId));
-                            } else if (field.getType() == PlayerController.class) {
-                                field.set(system, robot.getController(controllerId));
-                            } else {
-                                throw new RuntimeException("Unsupported controller field type: " + field.getType().getName());
-                            }
-                        }
-                    }
                 } catch (Exception ex) {
                     throw new RuntimeException("Failed to instantiate system: " + type.getName(), ex);
                 }
             });
+
+        STATES
+            .stream()
+            .filter(type -> type.isAnnotationPresent(FiniteState.class))
+            .forEach(type -> {
+                val annotation = type.getAnnotation(FiniteState.class);
+                Objects.requireNonNull(annotation);
+                robot.getStates().put(annotation.value(), type);
+            });
+    }
+
+    /**
+     * Instantiates the type given.
+     *
+     * @param type The type to instantiate.
+     * @return The instantiated object.
+     */
+    default Object instantiate(Class<?> type) throws InvocationTargetException, IllegalAccessException, InstantiationException {
+        val robot = this.asRobot();
+
+        // Get the constructor and its parameters.
+        Constructor<?> constructor = type.getDeclaredConstructors()[0];
+        val paramTypes = constructor.getParameterTypes();
+        val params = new Object[paramTypes.length];
+
+        // Map the parameter instances.
+        for (var i = 0; i < paramTypes.length; i++) {
+            Class<?> paramType = paramTypes[i];
+            if (paramType == HardwareMap.class) {
+                params[i] = robot.hardwareMap;
+            } else if (paramType == Logger.class) {
+                params[i] = robot.getLogger();
+            } else if (paramType.isAssignableFrom(MonoBehaviour.class)) {
+                params[i] = robot.getSystems().get(paramType);
+            } else if (paramType == Robot.class) {
+                params[i] = robot;
+            } else {
+                throw new RuntimeException("Unsupported constructor parameter: " + paramType.getName());
+            }
+        }
+
+        var object = constructor.newInstance(params);
+
+        // Handle fields.
+        for (Field field : type.getDeclaredFields()) {
+            field.setAccessible(true);
+            val fieldType = field.getType();
+
+            if (field.isAnnotationPresent(Hardware.class)) {
+                val annotation = field.getAnnotation(Hardware.class);
+                Objects.requireNonNull(annotation);
+
+                val hardwareName = annotation.value();
+                val hardwareDevice = robot.hardwareMap.get(hardwareName);
+                field.set(object, hardwareDevice);
+            } else if (field.isAnnotationPresent(Controller.class)) {
+                val annotation = field.getAnnotation(Controller.class);
+                Objects.requireNonNull(annotation);
+
+                val controllerId = annotation.value();
+                if (fieldType == Gamepad.class) {
+                    field.set(object, robot.getRawHandle(controllerId));
+                } else if (fieldType == GamepadEx.class) {
+                    field.set(object, robot.getControllerHandle(controllerId));
+                } else if (fieldType == PlayerController.class) {
+                    field.set(object, robot.getController(controllerId));
+                } else {
+                    throw new RuntimeException("Unsupported controller field type: " + fieldType.getName());
+                }
+            } else if (field.isAnnotationPresent(Injected.class)) {
+                if (fieldType.isAssignableFrom(MonoBehaviour.class)) {
+                    val systemInstance = robot.getSystems().get(fieldType);
+                    Objects.requireNonNull(systemInstance);
+                    field.set(object, systemInstance);
+                } else if (fieldType == Robot.class) {
+                    field.set(object, robot);
+                } else {
+                    throw new RuntimeException("Unsupported injected field type: " + fieldType.getName());
+                }
+            }
+        }
+
+        return object;
     }
 
     /** @return The {@link Robot}. */

@@ -1,24 +1,20 @@
 package moe.seikimo.ftc.robot.fsm;
 
-import moe.seikimo.ftc.game.MonoBehaviour;
-
 /**
- * The state of a robot.
+ * The various states a robot can be in.
  * <p>
- * Implements {@link MonoBehaviour} for lifecycle management.
+ * States generally should not be overridden. A state is
+ * a long-running task that is designed only to be interrupted by
+ * something of higher priority.
+ * <p>
+ * Example: `INTAKING` is not a state. `MOVE_TO_POINT` is a state.
  */
-public abstract class State implements MonoBehaviour {
-    // region Overrides for MonoBehavior
-
-    @Override
-    public final void awake() {
-        this.start();
-    }
-
-    @Override
-    public final void preUpdate() {
-        this.update();
-    }
-
-    // endregion
+public enum State {
+    /**
+     * Reverts the robot to the previous state.
+     * <p>
+     * If no state is available, the robot will enter an idle state.
+     */
+    PREVIOUS,
+    IDLE
 }

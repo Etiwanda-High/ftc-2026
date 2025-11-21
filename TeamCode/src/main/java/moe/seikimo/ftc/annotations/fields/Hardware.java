@@ -1,4 +1,4 @@
-package moe.seikimo.ftc.annotations;
+package moe.seikimo.ftc.annotations.fields;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

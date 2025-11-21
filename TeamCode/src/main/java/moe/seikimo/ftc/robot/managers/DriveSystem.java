@@ -2,21 +2,16 @@ package moe.seikimo.ftc.robot.managers;
 
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import lombok.Getter;
 import moe.seikimo.ftc.Constants;
-import moe.seikimo.ftc.annotations.Controller;
-import moe.seikimo.ftc.annotations.RobotSystem;
+import moe.seikimo.ftc.annotations.types.RobotSystem;
 import moe.seikimo.ftc.game.MonoBehaviour;
-import moe.seikimo.ftc.game.PlayerController;
 import moe.seikimo.ftc.utils.Logger;
 
 @RobotSystem
 public final class DriveSystem implements MonoBehaviour {
     private final Logger logger;
-    private final Follower follower;
-
-    @Controller(Controller.Player.DRIVER)
-    private PlayerController driver;
-
+    @Getter private final Follower follower;
     /** Dependency injection constructor. */
     public DriveSystem(Logger logger, HardwareMap hwMap) {
         this.logger = logger;
@@ -33,13 +28,6 @@ public final class DriveSystem implements MonoBehaviour {
     @Override
     public void update() {
         this.follower.update();
-
-        // Robot-centric drive.
-        this.follower.setTeleOpDrive(
-            this.driver.translateY(),
-            this.driver.translateX(),
-            this.driver.rotate()
-        );
 
         this.logger
             .section("Drive System")

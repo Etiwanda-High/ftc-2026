@@ -5,46 +5,67 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import lombok.Getter;
+import lombok.val;
 import moe.seikimo.ftc.Discoverable;
-import moe.seikimo.ftc.annotations.Controller;
+import moe.seikimo.ftc.annotations.fields.Controller;
 import moe.seikimo.ftc.game.MonoBehaviour;
 import moe.seikimo.ftc.game.PlayerController;
 import moe.seikimo.ftc.robot.fsm.State;
+import moe.seikimo.ftc.robot.fsm.StateMachine;
+import moe.seikimo.ftc.robot.fsm.StateSystem;
 import moe.seikimo.ftc.utils.Logger;
 import moe.seikimo.ftc.utils.RobotLogger;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** Base {@link OpMode} including state management & systems. */
 @Getter
 public abstract class Robot extends OpMode implements Discoverable {
     private final Logger logger = new RobotLogger(this);
+    private final Map<State, Class<?>> states = new ConcurrentHashMap<>();
     private final Map<Class<?>, MonoBehaviour> systems = new ConcurrentHashMap<>();
 
     private boolean initialized = false;
-    private State currentState = null;
     private OperationMode opMode = OperationMode.NONE;
     private PlayerController driver, operator;
 
     /** @return The mode of operation. */
     protected abstract OperationMode getOperationType();
 
+    /** @return Whether the robot is in autonomous mode. */
+    public final boolean isAuto() {
+        return this.opMode == OperationMode.AUTONOMOUS;
+    }
+
     /**
-     * Sets the new state of the robot.
+     * Changes the robot to the specified state.
      *
-     * @param newState The new state to set.
+     * @param state The state to change to.
      */
-    public final void changeState(@NotNull State newState) {
-        Preconditions.checkArgument(this.opMode != OperationMode.NONE, "Robot is not initialized!");
+    public final void changeState(State state) {
+        Preconditions.checkArgument(this.opMode != Robot.OperationMode.NONE, "Robot is not initialized!");
 
-        if (this.currentState != null) {
-            this.currentState.destroy();
+        // Get the state for the current operation mode.
+        if (!this.states.containsKey(state)) {
+            throw new IllegalArgumentException("State not found: " + state);
+        } else {
+            Class<?> stateClass = this.states.get(state);
+            Objects.requireNonNull(stateClass);
+
+            try {
+                val instance = (StateMachine) this.instantiate(stateClass);
+                this.getStateManager().changeState(state, instance);
+            } catch (Exception ex) {
+                throw new RuntimeException("Failed to instantiate state: " + stateClass.getName(), ex);
+            }
         }
+    }
 
-        this.currentState = newState;
-        this.currentState.start();
+    /** @return The state manager system. */
+    public StateSystem getStateManager() {
+        return (StateSystem) this.systems.get(StateSystem.class);
     }
 
     // region Discoverable Implementation
