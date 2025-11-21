@@ -6,7 +6,8 @@ import com.seattlesolvers.solverslib.command.*;
 import moe.seikimo.legacy.game.LegacyGameManager;
 import moe.seikimo.legacy.game.commands.RelativeDriveCommand;
 
-@TeleOp(name = "V2 TeleOp", group = "Game")
+// @TeleOp(name = "V2 TeleOp", group = "Game")
+@Deprecated(since = "V21")
 public final class V2TeleOpMode extends OpMode {
     private LegacyGameManager gameManager;
 

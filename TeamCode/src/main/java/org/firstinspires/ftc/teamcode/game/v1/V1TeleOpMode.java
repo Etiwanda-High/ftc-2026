@@ -9,7 +9,8 @@ import moe.seikimo.legacy.LegacyProfile;
 import moe.seikimo.legacy.robot.v1.Localization;
 import moe.seikimo.legacy.robot.v1.MecanumDrivetrain;
 
-@TeleOp(name = "V1", group = "Game")
+// @TeleOp(name = "V1", group = "Game")
+@Deprecated(since = "V3")
 public final class V1TeleOpMode extends OpMode {
     private GamepadEx player1, player2;
     private LegacyProfile profile1, profile2;
