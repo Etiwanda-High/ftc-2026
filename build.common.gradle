@@ -33,7 +33,7 @@ android {
             } else {
                 keyAlias 'androiddebugkey'
                 keyPassword 'android'
-                storeFile rootProject.file('libs/ftc.debug.keystore')
+                storeFile rootProject.file('ftc.debug.keystore')
                 storePassword 'android'
             }
         }
@@ -41,7 +41,7 @@ android {
         debug {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
-            storeFile rootProject.file('libs/ftc.debug.keystore')
+            storeFile rootProject.file('ftc.debug.keystore')
             storePassword 'android'
         }
     }
