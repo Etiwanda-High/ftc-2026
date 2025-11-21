@@ -17,14 +17,12 @@ import moe.seikimo.ftc.utils.Logger;
 import moe.seikimo.ftc.utils.RobotLogger;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** Base {@link OpMode} including state management & systems. */
 @Getter
 public abstract class Robot extends OpMode implements Discoverable {
     private final Logger logger = new RobotLogger(this);
-    private final Map<State, Class<?>> states = new ConcurrentHashMap<>();
     private final Map<Class<?>, MonoBehaviour> systems = new ConcurrentHashMap<>();
 
     private boolean initialized = false;
@@ -47,19 +45,14 @@ public abstract class Robot extends OpMode implements Discoverable {
     public final void changeState(State state) {
         Preconditions.checkArgument(this.opMode != Robot.OperationMode.NONE, "Robot is not initialized!");
 
-        // Get the state for the current operation mode.
-        if (!this.states.containsKey(state)) {
-            throw new IllegalArgumentException("State not found: " + state);
-        } else {
-            Class<?> stateClass = this.states.get(state);
-            Objects.requireNonNull(stateClass);
+        val stateType = state.getType();
+        Preconditions.checkArgument(stateType != null, "State class is null!");
 
-            try {
-                val instance = (StateMachine) this.instantiate(stateClass);
-                this.getStateManager().changeState(state, instance);
-            } catch (Exception ex) {
-                throw new RuntimeException("Failed to instantiate state: " + stateClass.getName(), ex);
-            }
+        try {
+            val instance = (StateMachine) this.instantiate(stateType);
+            this.getStateManager().changeState(state, instance);
+        } catch (Exception ex) {
+            throw new RuntimeException("Failed to instantiate state: " + stateType.getName(), ex);
         }
     }
 

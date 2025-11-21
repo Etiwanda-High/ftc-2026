@@ -13,7 +13,6 @@ import moe.seikimo.ftc.robot.fsm.StateSystem;
 import moe.seikimo.ftc.robot.managers.DriveSystem;
 import moe.seikimo.ftc.robot.managers.LocalizationSystem;
 import moe.seikimo.ftc.robot.Robot;
-import moe.seikimo.ftc.robot.states.IdleState;
 import moe.seikimo.ftc.utils.Logger;
 
 import java.lang.reflect.Constructor;
@@ -28,10 +27,6 @@ public interface Discoverable {
         DriveSystem.class,
         LocalizationSystem.class,
         StateSystem.class
-    );
-
-    Set<Class<?>> STATES = Set.of(
-        IdleState.class
     );
 
     /**
@@ -57,15 +52,6 @@ public interface Discoverable {
                 } catch (Exception ex) {
                     throw new RuntimeException("Failed to instantiate system: " + type.getName(), ex);
                 }
-            });
-
-        STATES
-            .stream()
-            .filter(type -> type.isAnnotationPresent(FiniteState.class))
-            .forEach(type -> {
-                val annotation = type.getAnnotation(FiniteState.class);
-                Objects.requireNonNull(annotation);
-                robot.getStates().put(annotation.value(), type);
             });
     }
 
