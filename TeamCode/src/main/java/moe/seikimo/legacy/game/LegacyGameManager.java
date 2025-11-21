@@ -1,4 +1,4 @@
-package moe.seikimo.ftc.game;
+package moe.seikimo.legacy.game;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -6,9 +6,13 @@ import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import moe.seikimo.ftc.DriverProfile;
-import moe.seikimo.ftc.robot.v2.*;
-import moe.seikimo.ftc.utils.LoggerV1;
+import moe.seikimo.legacy.LegacyProfile;
+import moe.seikimo.ftc.game.MonoBehaviour;
+import moe.seikimo.legacy.utils.LegacyLogger;
+import moe.seikimo.legacy.robot.v2.DriveSystem;
+import moe.seikimo.legacy.robot.v2.IntakeSystem;
+import moe.seikimo.legacy.robot.v2.LaunchSystem;
+import moe.seikimo.legacy.robot.v2.Localization;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
@@ -16,14 +20,14 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 @Getter
 @RequiredArgsConstructor
-public final class GameManager implements MonoBehaviour {
+public final class LegacyGameManager implements MonoBehaviour {
     private final Telemetry telemetry;
-    private final LoggerV1 logger = new LoggerV1(this);
+    private final LegacyLogger logger = new LegacyLogger(this);
 
     private final HardwareMap hwMap;
     private final Gamepad gp1, gp2;
 
-    private PlayerController driver, controller;
+    private LegacyController driver, controller;
     private Localization locale;
     private DriveSystem drive;
     private LaunchSystem launch;
@@ -31,8 +35,8 @@ public final class GameManager implements MonoBehaviour {
 
     /** Reads the hardware map. */
     private void configureHardware() {
-        this.driver = new PlayerController(new GamepadEx(this.gp1));
-        this.controller = new PlayerController(new GamepadEx(this.gp2));
+        this.driver = new LegacyController(new GamepadEx(this.gp1));
+        this.controller = new LegacyController(new GamepadEx(this.gp2));
 
         this.locale = new Localization(this);
         this.drive = new DriveSystem(this);
@@ -66,20 +70,20 @@ public final class GameManager implements MonoBehaviour {
     private void configureControllerCommands() {
         // region Button Controls
         this.controller
-            .button(DriverProfile.SET_SPEED_CLOSE)
+            .button(LegacyProfile.SET_SPEED_CLOSE)
             .whenPressed(this.launch::speedClose);
         this.controller
-            .button(DriverProfile.SET_SPEED_FAR)
+            .button(LegacyProfile.SET_SPEED_FAR)
             .whenPressed(this.launch::speedFar);
         this.controller
-            .button(DriverProfile.LAUNCH_SPEED_INCREASE)
+            .button(LegacyProfile.LAUNCH_SPEED_INCREASE)
             .whenPressed(this.launch::speedUp);
         this.controller
-            .button(DriverProfile.LAUNCH_SPEED_DECREASE)
+            .button(LegacyProfile.LAUNCH_SPEED_DECREASE)
             .whenPressed(this.launch::speedDown);
 
         this.controller
-            .button(DriverProfile.INTAKE_GATE_TOGGLE)
+            .button(LegacyProfile.INTAKE_GATE_TOGGLE)
             .whenPressed(this.intake::toggleGate);
         this.controller
             .button(Button.A)
@@ -88,10 +92,10 @@ public final class GameManager implements MonoBehaviour {
 
         // region Triggers
         this.controller
-            .button(DriverProfile.LAUNCH_TOGGLE)
+            .button(LegacyProfile.LAUNCH_TOGGLE)
             .whenPressed(this.launch::toggle);
         this.controller
-            .button(DriverProfile.LAUNCH_REVERSE)
+            .button(LegacyProfile.LAUNCH_REVERSE)
             .whenPressed(() -> this.launch.setReverse(true))
             .whenReleased(() -> this.launch.setReverse(false));
         // endregion

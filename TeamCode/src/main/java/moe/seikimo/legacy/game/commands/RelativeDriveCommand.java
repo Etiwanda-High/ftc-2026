@@ -1,9 +1,9 @@
-package moe.seikimo.ftc.game.commands;
+package moe.seikimo.legacy.game.commands;
 
 import com.seattlesolvers.solverslib.command.CommandBase;
-import moe.seikimo.ftc.game.GameManager;
-import moe.seikimo.ftc.game.PlayerController;
-import moe.seikimo.ftc.robot.v2.DriveSystem;
+import moe.seikimo.legacy.game.LegacyGameManager;
+import moe.seikimo.legacy.game.LegacyController;
+import moe.seikimo.legacy.robot.v2.DriveSystem;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.DoubleSupplier;
@@ -19,7 +19,7 @@ public final class RelativeDriveCommand extends CommandBase {
      *
      * @param gameManager The game manager to use for getting subsystems.
      */
-    public RelativeDriveCommand(GameManager gameManager) {
+    public RelativeDriveCommand(LegacyGameManager gameManager) {
         this(gameManager.getTelemetry(), gameManager.getDrive(), gameManager.getDriver());
     }
 
@@ -30,7 +30,7 @@ public final class RelativeDriveCommand extends CommandBase {
      * @param drive The drive system to control.
      * @param controller The player controller to read inputs from.
      */
-    public RelativeDriveCommand(Telemetry telemetry, DriveSystem drive, PlayerController controller) {
+    public RelativeDriveCommand(Telemetry telemetry, DriveSystem drive, LegacyController controller) {
         this.telemetry = telemetry;
         this.drive = drive;
         this.translateX = controller::translateX;

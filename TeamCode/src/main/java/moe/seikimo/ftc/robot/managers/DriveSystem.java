@@ -1,4 +1,4 @@
-package moe.seikimo.ftc.robot.v3;
+package moe.seikimo.ftc.robot.managers;
 
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -17,11 +17,7 @@ public final class DriveSystem implements MonoBehaviour {
     @Controller(Controller.Player.DRIVER)
     private PlayerController driver;
 
-    /**
-     * Constructs the drive system.
-     *
-     * @param hwMap The hardware map.
-     */
+    /** Dependency injection constructor. */
     public DriveSystem(Logger logger, HardwareMap hwMap) {
         this.logger = logger;
         this.follower = Constants.FOLLOWER_FACTORY.apply(hwMap);

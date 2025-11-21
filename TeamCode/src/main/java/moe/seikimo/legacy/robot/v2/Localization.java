@@ -1,4 +1,4 @@
-package moe.seikimo.ftc.robot.v2;
+package moe.seikimo.legacy.robot.v2;
 
 import android.annotation.SuppressLint;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -10,18 +10,18 @@ import lombok.experimental.ExtensionMethod;
 import lombok.val;
 import moe.seikimo.ftc.Constants;
 import moe.seikimo.ftc.Convert;
-import moe.seikimo.ftc.exceptions.LimelightException;
-import moe.seikimo.ftc.exceptions.NoResultException;
-import moe.seikimo.ftc.exceptions.NoTagDetectedException;
-import moe.seikimo.ftc.extensions.GamepadExtensions;
-import moe.seikimo.ftc.game.GameManager;
+import moe.seikimo.legacy.exceptions.LimelightException;
+import moe.seikimo.legacy.exceptions.NoResultException;
+import moe.seikimo.legacy.exceptions.NoTagDetectedException;
+import moe.seikimo.legacy.extensions.GamepadExtensions;
+import moe.seikimo.legacy.game.LegacyGameManager;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @ExtensionMethod({GamepadExtensions.class})
 public final class Localization extends SubsystemBase {
-    private final GameManager gameManager;
+    private final LegacyGameManager gameManager;
     private final Telemetry telemetry;
 
     private final Rev9AxisImu imu;
@@ -33,7 +33,7 @@ public final class Localization extends SubsystemBase {
      *
      * @param gameManager Game manager to use for initializing sensors.
      */
-    public Localization(GameManager gameManager) {
+    public Localization(LegacyGameManager gameManager) {
         this.gameManager = gameManager;
         this.telemetry = gameManager.getTelemetry();
 

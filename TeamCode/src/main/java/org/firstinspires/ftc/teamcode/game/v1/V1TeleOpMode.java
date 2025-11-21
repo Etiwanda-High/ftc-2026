@@ -5,14 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
-import moe.seikimo.ftc.DriverProfile;
-import moe.seikimo.ftc.robot.v1.Localization;
-import moe.seikimo.ftc.robot.v1.MecanumDrivetrain;
+import moe.seikimo.legacy.LegacyProfile;
+import moe.seikimo.legacy.robot.v1.Localization;
+import moe.seikimo.legacy.robot.v1.MecanumDrivetrain;
 
 @TeleOp(name = "V1", group = "Game")
 public final class V1TeleOpMode extends OpMode {
     private GamepadEx player1, player2;
-    private DriverProfile profile1, profile2;
+    private LegacyProfile profile1, profile2;
 
     private Localization locale;
     private MecanumDrivetrain drive;
@@ -25,9 +25,9 @@ public final class V1TeleOpMode extends OpMode {
     private void configureHardware() {
         // Configure players.
         this.player1 = new GamepadEx(this.gamepad1);
-        this.profile1 = DriverProfile.DEFAULT;
+        this.profile1 = LegacyProfile.DEFAULT;
         this.player2 = new GamepadEx(this.gamepad2);
-        this.profile2 = DriverProfile.DEFAULT;
+        this.profile2 = LegacyProfile.DEFAULT;
 
         // Configure drivetrain.
         this.locale = new Localization(this.telemetry, this.hardwareMap);
@@ -97,12 +97,12 @@ public final class V1TeleOpMode extends OpMode {
      * @param current The current driver profile.
      * @return The updated driver profile.
      */
-    private DriverProfile updateProfile(GamepadEx gamepad, DriverProfile current) {
+    private LegacyProfile updateProfile(GamepadEx gamepad, LegacyProfile current) {
         if (gamepad.wasJustPressed(Button.B)) {
-            return DriverProfile.FLYSKY;
+            return LegacyProfile.FLYSKY;
         }
         if (gamepad.wasJustPressed(Button.A)) {
-            return DriverProfile.DEFAULT;
+            return LegacyProfile.DEFAULT;
         }
 
         return current;

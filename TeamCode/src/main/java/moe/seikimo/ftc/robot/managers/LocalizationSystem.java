@@ -1,4 +1,4 @@
-package moe.seikimo.ftc.robot.v3;
+package moe.seikimo.ftc.robot.managers;
 
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;

@@ -1,9 +1,9 @@
-package moe.seikimo.ftc.game.commands;
+package moe.seikimo.legacy.game.commands;
 
 import com.seattlesolvers.solverslib.command.CommandBase;
 import com.seattlesolvers.solverslib.geometry.Pose2d;
-import moe.seikimo.ftc.game.GameManager;
-import moe.seikimo.ftc.robot.v2.DriveSystem;
+import moe.seikimo.legacy.game.LegacyGameManager;
+import moe.seikimo.legacy.robot.v2.DriveSystem;
 
 public final class DriveToCommand extends CommandBase {
     private final DriveSystem drive;
@@ -15,7 +15,7 @@ public final class DriveToCommand extends CommandBase {
      * @param gameManager The game manager to use for getting subsystems.
      * @param target The target pose to drive to.
      */
-    public DriveToCommand(GameManager gameManager, Pose2d target) {
+    public DriveToCommand(LegacyGameManager gameManager, Pose2d target) {
         this(gameManager.getDrive(), target);
     }
 

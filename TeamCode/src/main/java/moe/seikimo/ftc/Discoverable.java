@@ -10,15 +10,14 @@ import moe.seikimo.ftc.annotations.Hardware;
 import moe.seikimo.ftc.annotations.RobotSystem;
 import moe.seikimo.ftc.game.MonoBehaviour;
 import moe.seikimo.ftc.game.PlayerController;
-import moe.seikimo.ftc.robot.v3.DriveSystem;
-import moe.seikimo.ftc.robot.v3.LocalizationSystem;
-import moe.seikimo.ftc.robot.v3.RobotV1;
+import moe.seikimo.ftc.robot.managers.DriveSystem;
+import moe.seikimo.ftc.robot.managers.LocalizationSystem;
+import moe.seikimo.ftc.robot.Robot;
 import moe.seikimo.ftc.utils.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Comparator;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,9 +30,10 @@ public interface Discoverable {
     /**
      * Discovers hardware & systems.
      */
-    static void discover(Discoverable handle) {
-        val hwMap = handle.getHardwareMap();
-        val systems = handle.getSystems();
+    default void discover() {
+        val robot = this.asRobot();
+        val hwMap = robot.hardwareMap;
+        val systems = robot.getSystems();
 
         SYSTEMS
             .stream()
@@ -56,7 +56,7 @@ public interface Discoverable {
                         if (paramType == HardwareMap.class) {
                             params[i] = hwMap;
                         } else if (paramType == Logger.class) {
-                            params[i] = handle.getLogger();
+                            params[i] = robot.getLogger();
                         } else if (paramType.isAssignableFrom(MonoBehaviour.class)) {
                             params[i] = systems.get(paramType);
                         } else {
@@ -85,32 +85,22 @@ public interface Discoverable {
 
                             val controllerId = annotation.value();
                             if (field.getType() == Gamepad.class) {
-                                field.set(system, controllerId == Controller.Player.DRIVER ?
-                                    RobotV1.user1 : RobotV1.user2);
+                                field.set(system, robot.getRawHandle(controllerId));
                             } else if (field.getType() == GamepadEx.class) {
-                                field.set(system, controllerId == Controller.Player.DRIVER ?
-                                    RobotV1.gamepad1 : RobotV1.gamepad2);
+                                field.set(system, robot.getControllerHandle(controllerId));
                             } else if (field.getType() == PlayerController.class) {
-                                field.set(system, controllerId == Controller.Player.DRIVER ?
-                                    RobotV1.driver : RobotV1.operator);
+                                field.set(system, robot.getController(controllerId));
                             } else {
                                 throw new RuntimeException("Unsupported controller field type: " + field.getType().getName());
                             }
                         }
                     }
                 } catch (Exception ex) {
-                    ex.printStackTrace();
                     throw new RuntimeException("Failed to instantiate system: " + type.getName(), ex);
                 }
             });
     }
 
-    /** @return The {@link HardwareMap}. */
-    HardwareMap getHardwareMap();
-
-    /** @return The {@link Logger}. */
-    Logger getLogger();
-
-    /** @return The discovered systems. */
-    Map<Class<?>, MonoBehaviour> getSystems();
+    /** @return The {@link Robot}. */
+    Robot asRobot();
 }

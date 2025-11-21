@@ -1,4 +1,4 @@
-package moe.seikimo.ftc.game.commands;
+package moe.seikimo.legacy.game.commands;
 
 import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.CommandBase;

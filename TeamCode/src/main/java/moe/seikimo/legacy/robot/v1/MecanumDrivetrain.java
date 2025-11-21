@@ -1,4 +1,4 @@
-package moe.seikimo.ftc.robot.v1;
+package moe.seikimo.legacy.robot.v1;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.drivebase.MecanumDrive;
@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.val;
 import lombok.var;
 import moe.seikimo.ftc.Constants;
-import moe.seikimo.ftc.DriverProfile;
+import moe.seikimo.legacy.LegacyProfile;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public final class MecanumDrivetrain {
@@ -67,7 +67,7 @@ public final class MecanumDrivetrain {
      *
      * @param gamepad Gamepad to read input from.
      */
-    public void input(GamepadEx gamepad, DriverProfile profile) {
+    public void input(GamepadEx gamepad, LegacyProfile profile) {
         if (this.absoluteDrive) {
             // driveRobotCentric: Robot-centric assumes that each push of the joystick is in relation to the local position
             // of the robot—this means that whenever the user pushes the drive stick forward, the robot will drive in the

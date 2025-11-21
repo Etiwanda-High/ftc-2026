@@ -1,4 +1,4 @@
-package moe.seikimo.ftc.robot.v2;
+package moe.seikimo.legacy.robot.v2;
 
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
@@ -7,15 +7,15 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
 import moe.seikimo.ftc.Constants;
-import moe.seikimo.ftc.game.GameManager;
-import moe.seikimo.ftc.game.PlayerController;
+import moe.seikimo.legacy.game.LegacyGameManager;
+import moe.seikimo.legacy.game.LegacyController;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public final class IntakeSystem extends SubsystemBase {
-    private final GameManager gameManager;
+    private final LegacyGameManager gameManager;
     private final Telemetry telemetry;
 
-    private final PlayerController controller;
+    private final LegacyController controller;
     private final Motor motor;
 
     private final ServoEx nuh, uh;
@@ -35,7 +35,7 @@ public final class IntakeSystem extends SubsystemBase {
      *
      * @param gameManager Game manager to use for initializing motors.
      */
-    public IntakeSystem(GameManager gameManager) {
+    public IntakeSystem(LegacyGameManager gameManager) {
         this.gameManager = gameManager;
         this.telemetry = gameManager.getTelemetry();
 

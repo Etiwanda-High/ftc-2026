@@ -1,4 +1,4 @@
-package moe.seikimo.ftc.exceptions;
+package moe.seikimo.legacy.exceptions;
 
 public abstract class LimelightException extends Exception {
     public LimelightException(String message) {

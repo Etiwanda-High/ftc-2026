@@ -1,4 +1,4 @@
-package moe.seikimo.ftc.robot.v1;
+package moe.seikimo.legacy.robot.v1;
 
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.Rev9AxisImu;
@@ -10,10 +10,10 @@ import lombok.experimental.ExtensionMethod;
 import lombok.val;
 import moe.seikimo.ftc.Constants;
 import moe.seikimo.ftc.Convert;
-import moe.seikimo.ftc.exceptions.LimelightException;
-import moe.seikimo.ftc.exceptions.NoResultException;
-import moe.seikimo.ftc.exceptions.NoTagDetectedException;
-import moe.seikimo.ftc.extensions.GamepadExtensions;
+import moe.seikimo.legacy.exceptions.LimelightException;
+import moe.seikimo.legacy.exceptions.NoResultException;
+import moe.seikimo.legacy.exceptions.NoTagDetectedException;
+import moe.seikimo.legacy.extensions.GamepadExtensions;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;

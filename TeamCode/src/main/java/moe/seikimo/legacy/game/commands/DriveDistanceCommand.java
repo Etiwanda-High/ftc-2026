@@ -1,8 +1,8 @@
-package moe.seikimo.ftc.game.commands;
+package moe.seikimo.legacy.game.commands;
 
 import com.seattlesolvers.solverslib.command.CommandBase;
-import moe.seikimo.ftc.game.GameManager;
-import moe.seikimo.ftc.robot.v2.DriveSystem;
+import moe.seikimo.legacy.game.LegacyGameManager;
+import moe.seikimo.legacy.robot.v2.DriveSystem;
 
 public final class DriveDistanceCommand extends CommandBase {
     private final DriveSystem drive;
@@ -13,7 +13,7 @@ public final class DriveDistanceCommand extends CommandBase {
      *
      * @param gameManager The game manager.
      */
-    public DriveDistanceCommand(GameManager gameManager, double x, double y) {
+    public DriveDistanceCommand(LegacyGameManager gameManager, double x, double y) {
         this(gameManager.getDrive(), x, y);
     }
 

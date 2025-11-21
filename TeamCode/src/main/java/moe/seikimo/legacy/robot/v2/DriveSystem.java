@@ -1,16 +1,16 @@
-package moe.seikimo.ftc.robot.v2;
+package moe.seikimo.legacy.robot.v2;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.seattlesolvers.solverslib.command.SubsystemBase;
 import lombok.val;
 import moe.seikimo.ftc.Constants;
-import moe.seikimo.ftc.game.GameManager;
+import moe.seikimo.legacy.game.LegacyGameManager;
 import moe.seikimo.ftc.game.MonoBehaviour;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public final class DriveSystem extends SubsystemBase implements MonoBehaviour {
-    private final GameManager gameManager;
+    private final LegacyGameManager gameManager;
     private final Telemetry telemetry;
 
     private final Follower follower;
@@ -29,7 +29,7 @@ public final class DriveSystem extends SubsystemBase implements MonoBehaviour {
      *
      * @param gameManager Game manager to use for initializing motors.
      */
-    public DriveSystem(GameManager gameManager) {
+    public DriveSystem(LegacyGameManager gameManager) {
         this.gameManager = gameManager;
         this.telemetry = gameManager.getTelemetry();
 

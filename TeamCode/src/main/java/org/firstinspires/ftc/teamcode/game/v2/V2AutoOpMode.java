@@ -2,17 +2,17 @@ package org.firstinspires.ftc.teamcode.game.v2;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
-import moe.seikimo.ftc.game.GameManager;
+import moe.seikimo.legacy.game.LegacyGameManager;
 
 @Autonomous(name = "V2 Auto", group = "Game")
 public final class V2AutoOpMode extends CommandOpMode {
-    private GameManager gameManager;
+    private LegacyGameManager gameManager;
 
     // region OpMode Implementation
 
     @Override
     public void initialize() {
-        this.gameManager = new GameManager(
+        this.gameManager = new LegacyGameManager(
             this.telemetry, this.hardwareMap, this.gamepad1, this.gamepad2);
 
         this.gameManager.awake();

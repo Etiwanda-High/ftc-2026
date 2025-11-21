@@ -1,14 +1,14 @@
-package moe.seikimo.ftc.robot.v3;
+package moe.seikimo.legacy.robot;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import moe.seikimo.ftc.game.MonoBehaviour;
-import moe.seikimo.ftc.game.PlayerController;
+import moe.seikimo.legacy.game.LegacyController;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public final class RobotV1 {
+public final class LegacyRobot {
     private static final Set<MonoBehaviour> EXTRAS = new HashSet<>();
     public static OperationMode CURRENT_MODE = OperationMode.NONE;
 
@@ -17,7 +17,7 @@ public final class RobotV1 {
     /** The SolversLib gamepad handles. */
     public static GamepadEx gamepad1, gamepad2;
     /** The wrapper handles for gamepads. */
-    public static PlayerController driver, operator;
+    public static LegacyController driver, operator;
 
     /**
      * Initializes the gamepads.
@@ -26,15 +26,15 @@ public final class RobotV1 {
      * @param gp2 The operator gamepad.
      */
     public static void initializeGamepads(Gamepad gp1, Gamepad gp2) {
-        RobotV1.user1 = gp1;
-        RobotV1.user2 = gp2;
-        RobotV1.gamepad1 = new GamepadEx(gp1);
-        RobotV1.gamepad2 = new GamepadEx(gp2);
-        RobotV1.driver = new PlayerController(RobotV1.gamepad1);
-        RobotV1.operator = new PlayerController(RobotV1.gamepad2);
+        LegacyRobot.user1 = gp1;
+        LegacyRobot.user2 = gp2;
+        LegacyRobot.gamepad1 = new GamepadEx(gp1);
+        LegacyRobot.gamepad2 = new GamepadEx(gp2);
+        LegacyRobot.driver = new LegacyController(LegacyRobot.gamepad1);
+        LegacyRobot.operator = new LegacyController(LegacyRobot.gamepad2);
 
-        EXTRAS.add(RobotV1.driver);
-        EXTRAS.add(RobotV1.operator);
+        EXTRAS.add(LegacyRobot.driver);
+        EXTRAS.add(LegacyRobot.operator);
     }
 
     /**
@@ -69,7 +69,7 @@ public final class RobotV1 {
      * Destroys all extra MonoBehaviours.
      */
     public static void destroy() {
-        CURRENT_MODE = RobotV1.OperationMode.NONE;
+        CURRENT_MODE = LegacyRobot.OperationMode.NONE;
 
         EXTRAS.forEach(MonoBehaviour::destroy);
         EXTRAS.clear();

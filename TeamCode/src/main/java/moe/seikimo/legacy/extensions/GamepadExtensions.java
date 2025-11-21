@@ -1,4 +1,4 @@
-package moe.seikimo.ftc.extensions;
+package moe.seikimo.legacy.extensions;
 
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;

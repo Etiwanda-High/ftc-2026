@@ -1,4 +1,4 @@
-package moe.seikimo.ftc.exceptions;
+package moe.seikimo.legacy.exceptions;
 
 /**
  * Exception thrown when no Limelight result is found.

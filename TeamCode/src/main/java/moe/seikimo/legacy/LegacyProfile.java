@@ -1,4 +1,4 @@
-package moe.seikimo.ftc;
+package moe.seikimo.legacy;
 
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;
@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 @Getter
 @Builder
-public final class DriverProfile {
+public final class LegacyProfile {
     public static final Button
         SET_SPEED_CLOSE = Button.Y,
         SET_SPEED_FAR = Button.B;
@@ -23,7 +23,7 @@ public final class DriverProfile {
         INTAKE_GATE_TOGGLE = Button.A;
 
     /** The default driver profile. */
-    public static final DriverProfile DEFAULT = DriverProfile.builder()
+    public static final LegacyProfile DEFAULT = LegacyProfile.builder()
         .name("Default")
         // Modifier keys.
         .superButton(Button.BACK)
@@ -39,7 +39,7 @@ public final class DriverProfile {
         .build();
 
     /** The FlySky-like driver profile. */
-    public static final DriverProfile FLYSKY = DriverProfile.builder()
+    public static final LegacyProfile FLYSKY = LegacyProfile.builder()
         .name("FlySky")
         // Modifier keys.
         .superButton(Button.BACK)

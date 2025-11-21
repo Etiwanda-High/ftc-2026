@@ -1,13 +1,13 @@
-package moe.seikimo.ftc.utils;
+package moe.seikimo.legacy.utils;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import lombok.val;
-import moe.seikimo.ftc.game.GameManager;
+import moe.seikimo.legacy.game.LegacyGameManager;
 import moe.seikimo.ftc.game.MonoBehaviour;
 
-public final class LoggerV1 implements MonoBehaviour {
-    private final GameManager gameManager;
+public final class LegacyLogger implements MonoBehaviour {
+    private final LegacyGameManager gameManager;
     private final TelemetryManager panels;
 
     /**
@@ -15,7 +15,7 @@ public final class LoggerV1 implements MonoBehaviour {
      *
      * @param gameManager Game manager to use for telemetry.
      */
-    public LoggerV1(GameManager gameManager) {
+    public LegacyLogger(LegacyGameManager gameManager) {
         this.gameManager = gameManager;
         this.panels = PanelsTelemetry.INSTANCE.getTelemetry();
     }
@@ -35,7 +35,7 @@ public final class LoggerV1 implements MonoBehaviour {
      * @param args The arguments to format into the caption.
      * @return The game manager instance.
      */
-    public LoggerV1 log(String caption, String message, Object... args) {
+    public LegacyLogger log(String caption, String message, Object... args) {
         if (args.length == 0) {
             this.gameManager.getTelemetry().addData(caption, message);
             this.panels.debug(String.format("%s: %s", caption, message));
