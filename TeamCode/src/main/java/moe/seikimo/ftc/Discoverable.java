@@ -10,8 +10,7 @@ import moe.seikimo.ftc.annotations.types.*;
 import moe.seikimo.ftc.game.MonoBehaviour;
 import moe.seikimo.ftc.game.PlayerController;
 import moe.seikimo.ftc.robot.fsm.StateSystem;
-import moe.seikimo.ftc.robot.managers.DriveSystem;
-import moe.seikimo.ftc.robot.managers.LocalizationSystem;
+import moe.seikimo.ftc.robot.managers.*;
 import moe.seikimo.ftc.robot.Robot;
 import moe.seikimo.ftc.utils.Logger;
 
@@ -26,7 +25,9 @@ public interface Discoverable {
     Set<Class<?>> SYSTEMS = Set.of(
         DriveSystem.class,
         LocalizationSystem.class,
-        StateSystem.class
+        StateSystem.class,
+        IntakeSystem.class,
+        LauncherSystem.class
     );
 
     /**

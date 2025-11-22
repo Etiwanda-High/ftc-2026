@@ -4,11 +4,13 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
 import com.pedropathing.ftc.drivetrains.MecanumConstants;
-import com.pedropathing.ftc.localization.constants.OTOSConstants;
+import com.pedropathing.ftc.localization.constants.PinpointConstants;
 import com.pedropathing.paths.PathConstraints;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver.EncoderDirection;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver.GoBildaOdometryPods;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import java.util.function.Function;
@@ -30,17 +32,12 @@ public interface Constants {
     String MOTOR_LAUNCH = "launcher";
     String MOTOR_INTAKE = "intake";
 
-    String SERVO_NUH = "nuh";
-    float SERVO_DOOR_OPENED = 0.65f;
-    float SERVO_DOOR_CLOSED = 0.35f;
-    String SERVO_UH = "uh";
-
     String SENSOR_LIMELIGHT = "Limelight";
-    int LIMELIGHT_POLL_RATE = 100;
+    /** 250Hz is the max poll rate for the Limelight 3A. */
+    int LIMELIGHT_POLL_RATE = 250;
 
     String SENSOR_IMU = "imu";
-    String SENSOR_OTOS = "otos";
-    int OTOS_SAMPLES = 512;
+    String SENSOR_PINPOINT = "pinpoint";
 
     String DRIVE_FRONT_LEFT = "left_front";
     String DRIVE_FRONT_RIGHT = "right_front";
@@ -63,10 +60,17 @@ public interface Constants {
         .rightFrontMotorDirection(Direction.FORWARD)
         .rightRearMotorDirection(Direction.FORWARD);
 
-    OTOSConstants LOCALIZER = new OTOSConstants()
-        .hardwareMapName(SENSOR_OTOS)
-        .linearUnit(DistanceUnit.INCH)
-        .angleUnit(AngleUnit.RADIANS);
+    PinpointConstants LOCALIZER = new PinpointConstants()
+        .hardwareMapName(SENSOR_PINPOINT)
+        .distanceUnit(DistanceUnit.MM)
+        // These values are taken from the OnShape model as of 11/21/2025.
+        .forwardPodY(-100.8) // 4 inches backward
+        .strafePodX(-76.7)   // 3 inches left
+        .encoderResolution(GoBildaOdometryPods.goBILDA_4_BAR_POD)
+        // TODO: Evaluate whether these directions are correct.
+        //       They are both going to be FORWARD, or REVERSE.
+        .forwardEncoderDirection(EncoderDirection.FORWARD)
+        .strafeEncoderDirection(EncoderDirection.FORWARD);
 
     PathConstraints CONSTRAINTS = new PathConstraints(0.99, 100, 1, 1);
 
@@ -77,7 +81,7 @@ public interface Constants {
         new FollowerBuilder(FOLLOW, hwMap)
             .mecanumDrivetrain(DRIVE)
             .pathConstraints(CONSTRAINTS)
-            .OTOSLocalizer(LOCALIZER)
+            .pinpointLocalizer(LOCALIZER)
             .build();
     // endregion
 }

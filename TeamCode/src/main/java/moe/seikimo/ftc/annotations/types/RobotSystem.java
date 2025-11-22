@@ -20,6 +20,8 @@ public @interface RobotSystem {
 
     /**
      * The priority of system loading.
+     * <p>
+     * Highest will get loaded first, Lowest will get loaded last.
      */
     enum Priority {
         HIGHEST,
