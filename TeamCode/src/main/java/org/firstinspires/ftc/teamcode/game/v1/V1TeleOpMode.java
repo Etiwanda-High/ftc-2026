@@ -52,8 +52,6 @@ public final class V1TeleOpMode extends OpMode {
 
     /**
      * Invoked every loop cycle while the op mode is in the init phase.
-     * <p>
-     * TODO: Pre-match configuration system?
      */
     private void preUpdate() {
         this.telemetry.addData("Status", "Configuration");
@@ -65,7 +63,6 @@ public final class V1TeleOpMode extends OpMode {
         this.telemetry.addLine("Press [A] for Default profile.");
         this.telemetry.addLine("Press [B] for FlySky profile.");
 
-        // TODO: "maybe abstract/separate this into another handle\class?"
         this.profile1 = this.updateProfile(this.player1, this.profile1);
         this.profile2 = this.updateProfile(this.player2, this.profile2);
 

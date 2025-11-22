@@ -70,7 +70,6 @@ public final class DriveSystem extends SubsystemBase implements MonoBehaviour {
 
     @Override
     public void start() {
-        // TODO: Replace SolversLib mecanum drive with Pedro Pathing drive.
         this.follower.startTeleOpDrive(true);
     }
 
