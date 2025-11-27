@@ -1,6 +1,5 @@
 package moe.seikimo.ftc.robot;
 
-import androidx.core.util.Preconditions;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
@@ -14,6 +13,7 @@ import moe.seikimo.ftc.robot.fsm.State;
 import moe.seikimo.ftc.robot.fsm.StateMachine;
 import moe.seikimo.ftc.robot.fsm.StateSystem;
 import moe.seikimo.ftc.utils.Logger;
+import moe.seikimo.ftc.utils.Preconditions;
 import moe.seikimo.ftc.utils.RobotLogger;
 
 import java.util.Map;
@@ -43,10 +43,10 @@ public abstract class Robot extends OpMode implements Discoverable {
      * @param state The state to change to.
      */
     public final void changeState(State state) {
-        Preconditions.checkArgument(this.opMode != Robot.OperationMode.NONE, "Robot is not initialized!");
+        Preconditions.doAssert(this.opMode != Robot.OperationMode.NONE, "Robot is not initialized!");
 
         val stateType = state.getType();
-        Preconditions.checkArgument(stateType != null, "State class is null!");
+        Preconditions.doAssert(stateType != null, "State class is null!");
 
         try {
             val instance = (StateMachine) this.instantiate(stateType);
@@ -70,7 +70,7 @@ public abstract class Robot extends OpMode implements Discoverable {
      * @return The raw gamepad handle.
      */
     public final Gamepad getRawHandle(Controller.Player player) {
-        Preconditions.checkArgument(this.opMode != OperationMode.NONE, "Robot is not initialized!");
+        Preconditions.doAssert(this.opMode != OperationMode.NONE, "Robot is not initialized!");
 
         // "it's unfortunate we can't use switch-case pattern matching :/"
         switch (player) {
@@ -87,7 +87,7 @@ public abstract class Robot extends OpMode implements Discoverable {
      * @return The extended gamepad handle.
      */
     public final GamepadEx getControllerHandle(Controller.Player player) {
-        Preconditions.checkArgument(this.opMode != OperationMode.NONE, "Robot is not initialized!");
+        Preconditions.doAssert(this.opMode != OperationMode.NONE, "Robot is not initialized!");
 
         // "it's unfortunate we can't use switch-case pattern matching :/"
         switch (player) {
@@ -104,7 +104,7 @@ public abstract class Robot extends OpMode implements Discoverable {
      * @return The controller instance.
      */
     public final PlayerController getController(Controller.Player player) {
-        Preconditions.checkArgument(this.opMode != OperationMode.NONE, "Robot is not initialized!");
+        Preconditions.doAssert(this.opMode != OperationMode.NONE, "Robot is not initialized!");
 
         // "it's unfortunate we can't use switch-case pattern matching :/"
         switch (player) {
@@ -136,7 +136,7 @@ public abstract class Robot extends OpMode implements Discoverable {
     /** Equivalent to {@link MonoBehaviour#awake()} */
     @Override
     public void init() {
-        Preconditions.checkArgument(!this.initialized, "Robot is already initialized!");
+        Preconditions.doAssert(!this.initialized, "Robot is already initialized!");
 
         this.opMode = this.getOperationType();
 

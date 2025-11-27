@@ -6,7 +6,6 @@ import com.pedropathing.ftc.FollowerBuilder;
 import com.pedropathing.ftc.drivetrains.MecanumConstants;
 import com.pedropathing.ftc.localization.constants.PinpointConstants;
 import com.pedropathing.paths.PathConstraints;
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver.EncoderDirection;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver.GoBildaOdometryPods;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
@@ -36,7 +35,6 @@ public interface Constants {
     /** 250Hz is the max poll rate for the Limelight 3A. */
     int LIMELIGHT_POLL_RATE = 250;
 
-    String SENSOR_IMU = "imu";
     String SENSOR_PINPOINT = "pinpoint";
 
     String DRIVE_FRONT_LEFT = "left_front";
