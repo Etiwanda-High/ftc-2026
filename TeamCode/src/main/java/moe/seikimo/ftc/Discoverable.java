@@ -9,6 +9,7 @@ import moe.seikimo.ftc.annotations.fields.*;
 import moe.seikimo.ftc.annotations.types.*;
 import moe.seikimo.ftc.game.MonoBehaviour;
 import moe.seikimo.ftc.game.PlayerController;
+import moe.seikimo.ftc.game.prompt.PromptManager;
 import moe.seikimo.ftc.robot.fsm.StateSystem;
 import moe.seikimo.ftc.robot.managers.*;
 import moe.seikimo.ftc.robot.Robot;
@@ -81,6 +82,8 @@ public interface Discoverable {
                 params[i] = robot.getSystems().get(paramType);
             } else if (paramType == Robot.class) {
                 params[i] = robot;
+            } else if (paramType == PromptManager.class) {
+                params[i] = robot.getPromptManager();
             } else {
                 throw new RuntimeException("Unsupported constructor parameter: " + paramType.getName());
             }
@@ -124,6 +127,13 @@ public interface Discoverable {
                 } else {
                     throw new RuntimeException("Unsupported injected field type: " + fieldType.getName());
                 }
+            } else if (field.isAnnotationPresent(FromPrompt.class)) {
+                val annotation = field.getAnnotation(FromPrompt.class);
+                Objects.requireNonNull(annotation);
+
+                val promptLabel = annotation.value();
+                val prompt = robot.getPromptManager().getValue(promptLabel);
+                field.set(object, prompt.getValue());
             }
         }
 

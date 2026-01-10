@@ -1,5 +1,6 @@
 package moe.seikimo.ftc.robot.fsm;
 
+import lombok.Setter;
 import moe.seikimo.ftc.game.MonoBehaviour;
 
 /**
@@ -8,6 +9,12 @@ import moe.seikimo.ftc.game.MonoBehaviour;
  * Implements {@link MonoBehaviour} for lifecycle management.
  */
 public abstract class StateMachine implements MonoBehaviour {
+    /**
+     * The return code from the previous state.
+     */
+    @Setter
+    protected int previous = 0;
+
     /**
      * By default, state machines are endless and require manual transition.
      * <p>
@@ -28,6 +35,16 @@ public abstract class StateMachine implements MonoBehaviour {
      */
     public State nextState() {
         return null;
+    }
+
+    /**
+     * The return code of the state.
+     * This value is passed to the next state.
+     *
+     * @return The return code.
+     */
+    public int getReturnCode() {
+        return 0;
     }
 
     // region Overrides for MonoBehavior

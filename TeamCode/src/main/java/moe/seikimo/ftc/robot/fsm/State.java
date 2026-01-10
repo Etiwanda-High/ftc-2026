@@ -3,6 +3,7 @@ package moe.seikimo.ftc.robot.fsm;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import moe.seikimo.ftc.robot.states.IdleState;
+import moe.seikimo.ftc.robot.states.MigrateState;
 
 import javax.annotation.Nullable;
 
@@ -24,7 +25,21 @@ public enum State {
      * If no state is available, the robot will enter an idle state.
      */
     PREVIOUS(null),
-    IDLE(IdleState.class);
+    /**
+     * Teleoperated idle state. The robot responds only to human commands.
+     */
+    IDLE(IdleState.class),
+    /**
+     * Teleoperated & autonomous operation. Runs the launcher until it is drained.
+     * <p>
+     * This transitions back to the previous state when complete.
+     */
+    LAUNCHER_SHOOT(null),
+
+    /**
+     * Autonomous operation. The robot moves between points.
+     */
+    MIGRATE(MigrateState.class);
 
     @Nullable
     final Class<? extends StateMachine> type;

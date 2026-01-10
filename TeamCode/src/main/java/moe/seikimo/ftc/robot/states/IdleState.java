@@ -20,7 +20,8 @@ public final class IdleState extends StateMachine {
     @Override
     public void start() {
         if (this.robot.isAuto()) {
-            // TODO: Determine what to do in autonomous mode at the start.
+            // Transition to the migration state.
+            this.robot.changeState(State.MIGRATE);
         } else {
             this.drive.getFollower().startTeleOpDrive(true);
         }

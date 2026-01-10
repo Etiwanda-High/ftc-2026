@@ -9,6 +9,7 @@ import moe.seikimo.ftc.Discoverable;
 import moe.seikimo.ftc.annotations.fields.Controller;
 import moe.seikimo.ftc.game.MonoBehaviour;
 import moe.seikimo.ftc.game.PlayerController;
+import moe.seikimo.ftc.game.prompt.PromptManager;
 import moe.seikimo.ftc.robot.fsm.State;
 import moe.seikimo.ftc.robot.fsm.StateMachine;
 import moe.seikimo.ftc.robot.fsm.StateSystem;
@@ -24,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class Robot extends OpMode implements Discoverable {
     private final Logger logger = new RobotLogger(this);
     private final Map<Class<?>, MonoBehaviour> systems = new ConcurrentHashMap<>();
+    protected final PromptManager promptManager = new PromptManager();
 
     private boolean initialized = false;
     private OperationMode opMode = OperationMode.NONE;
@@ -43,6 +45,15 @@ public abstract class Robot extends OpMode implements Discoverable {
      * @param state The state to change to.
      */
     public final void changeState(State state) {
+        this.changeState(state, 0);
+    }
+
+    /**
+     * Changes the robot to the specified state.
+     *
+     * @param state The state to change to.
+     */
+    public final void changeState(State state, int returnCode) {
         Preconditions.doAssert(this.opMode != Robot.OperationMode.NONE, "Robot is not initialized!");
 
         val stateType = state.getType();
@@ -50,7 +61,7 @@ public abstract class Robot extends OpMode implements Discoverable {
 
         try {
             val instance = (StateMachine) this.instantiate(stateType);
-            this.getStateManager().changeState(state, instance);
+            this.getStateManager().changeState(state, instance, returnCode);
         } catch (Exception ex) {
             throw new RuntimeException("Failed to instantiate state: " + stateType.getName(), ex);
         }

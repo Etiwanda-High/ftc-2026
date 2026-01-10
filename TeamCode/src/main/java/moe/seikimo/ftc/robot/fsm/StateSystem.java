@@ -43,13 +43,17 @@ public final class StateSystem implements MonoBehaviour {
      *
      * @param stateType The new state type to set.
      * @param newState The new state to set.
+     * @param returnCode The return code from the previous state.
      */
-    public void changeState(State stateType, @NotNull StateMachine newState) {
+    public void changeState(State stateType, @NotNull StateMachine newState, int returnCode) {
         // Push the current state onto the stack.
         if (this.stateType != null) {
             this.stateStack.push(this.stateType);
         }
         this.stateType = stateType;
+
+        // Set the previous return code.
+        newState.setPrevious(returnCode);
 
         // Set the new state instance.
         if (this.currentState != null) {
@@ -89,14 +93,16 @@ public final class StateSystem implements MonoBehaviour {
 
         // If the current state is finished, transition to the next state.
         if (this.currentState.isFinished()) {
+            val returnCode = this.currentState.getReturnCode();
             val nextState = this.currentState.nextState();
+
             if (nextState == null) {
                 // Return to the default idle state.
-                this.robot.changeState(State.IDLE);
+                this.robot.changeState(State.IDLE, returnCode);
             } else if (nextState == State.PREVIOUS) {
-                this.fallbackState();
+                this.fallbackState(returnCode);
             } else {
-                this.robot.changeState(nextState);
+                this.robot.changeState(nextState, returnCode);
             }
         }
 
