@@ -4,11 +4,12 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
 import com.pedropathing.ftc.drivetrains.MecanumConstants;
-import com.pedropathing.ftc.localization.constants.OTOSConstants;
+import com.pedropathing.ftc.localization.constants.PinpointConstants;
 import com.pedropathing.paths.PathConstraints;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver.EncoderDirection;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver.GoBildaOdometryPods;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import java.util.function.Function;
@@ -29,18 +30,15 @@ public interface Constants {
     // region Hardware Map & Sensor Constants
     String MOTOR_LAUNCH = "launcher";
     String MOTOR_INTAKE = "intake";
+    String MOTOR_INTAKE_FRONT = "intake_front";
 
-    String SERVO_NUH = "nuh";
-    float SERVO_DOOR_OPENED = 0.65f;
-    float SERVO_DOOR_CLOSED = 0.35f;
-    String SERVO_UH = "uh";
-
+    String SENSOR_PINPOINT = "pinpoint";
     String SENSOR_LIMELIGHT = "Limelight";
     int LIMELIGHT_POLL_RATE = 100;
 
-    String SENSOR_IMU = "imu";
-    String SENSOR_OTOS = "otos";
-    int OTOS_SAMPLES = 512;
+    String SERVO_KICKER_LEFT = "kicker_left";
+    String SERVO_KICKER_RIGHT_TOP = "kicker_right_top";
+    String SERVO_KICKER_RIGHT_BOTTOM = "kicker_right_bottom";
 
     String DRIVE_FRONT_LEFT = "left_front";
     String DRIVE_FRONT_RIGHT = "right_front";
@@ -63,10 +61,14 @@ public interface Constants {
         .rightFrontMotorDirection(Direction.FORWARD)
         .rightRearMotorDirection(Direction.FORWARD);
 
-    OTOSConstants LOCALIZER = new OTOSConstants()
-        .hardwareMapName(SENSOR_OTOS)
-        .linearUnit(DistanceUnit.INCH)
-        .angleUnit(AngleUnit.RADIANS);
+    PinpointConstants LOCALIZER = new PinpointConstants()
+        .hardwareMapName(SENSOR_PINPOINT)
+        .distanceUnit(DistanceUnit.MM)
+        .encoderResolution(GoBildaOdometryPods.goBILDA_4_BAR_POD)
+        .forwardPodY(-119.594)
+        .forwardEncoderDirection(EncoderDirection.FORWARD)
+        .strafePodX(-69.906)
+        .strafeEncoderDirection(EncoderDirection.FORWARD);
 
     PathConstraints CONSTRAINTS = new PathConstraints(0.99, 100, 1, 1);
 
@@ -77,7 +79,7 @@ public interface Constants {
         new FollowerBuilder(FOLLOW, hwMap)
             .mecanumDrivetrain(DRIVE)
             .pathConstraints(CONSTRAINTS)
-            .OTOSLocalizer(LOCALIZER)
+            .pinpointLocalizer(LOCALIZER)
             .build();
     // endregion
 }
