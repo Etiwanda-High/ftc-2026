@@ -20,7 +20,7 @@ public final class LocalizationSystem implements MonoBehaviour {
     @Hardware(Constants.SENSOR_LIMELIGHT)
     private Limelight3A limelight;
 
-    @Hardware(Constants.SENSOR_OTOS)
+    @Hardware("otos")
     private SparkFunOTOS otos;
 
     @Override
