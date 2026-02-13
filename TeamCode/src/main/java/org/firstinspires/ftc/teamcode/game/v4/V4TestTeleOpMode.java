@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.game.v4;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import moe.seikimo.ftc.Constants;
 
-@TeleOp(name = "V4 Test TeleOp", group = "V4")
 public final class V4TestTeleOpMode extends OpMode {
     private Motor frontLeft, frontRight, backLeft, backRight;
 

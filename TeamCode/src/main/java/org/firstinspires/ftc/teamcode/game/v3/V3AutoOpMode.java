@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.game.v3;
 
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import kotlin.UninitializedPropertyAccessException;
@@ -19,7 +18,6 @@ import java.util.Map;
 /**
  * As of v3, this class acts as a game manager.x
  */
-@Autonomous(name = "V3 Auto", group = "Game")
 public final class V3AutoOpMode extends OpMode implements Logger, Discoverable {
     @Getter private final Map<Class<?>, MonoBehaviour> systems = new HashMap<>();
 

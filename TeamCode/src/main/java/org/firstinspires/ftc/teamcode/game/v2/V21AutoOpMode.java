@@ -2,11 +2,9 @@ package org.firstinspires.ftc.teamcode.game.v2;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.util.Timer;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import moe.seikimo.ftc.Constants;
 
-@Autonomous(name = "V21 Auto", group = "Game")
 public final class V21AutoOpMode extends OpMode {
     private final Timer timer = new Timer();
     private Follower follower;

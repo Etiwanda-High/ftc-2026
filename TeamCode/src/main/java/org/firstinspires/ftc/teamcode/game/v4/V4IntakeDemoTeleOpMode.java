@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.game.v4;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import com.seattlesolvers.solverslib.hardware.servos.ServoEx;
 import lombok.val;
 import moe.seikimo.ftc.Constants;
 
-@TeleOp(name = "V4 Intake Demo", group = "V4")
 public final class V4IntakeDemoTeleOpMode extends OpMode {
     private final static double LIMIT = 0.333;
 
@@ -21,8 +19,8 @@ public final class V4IntakeDemoTeleOpMode extends OpMode {
         this.intakeMotor = new Motor(this.hardwareMap, Constants.MOTOR_INTAKE_FRONT);
 
         this.kickLeft = new ServoEx(this.hardwareMap, Constants.SERVO_KICKER_LEFT);
-        this.kickRightTop = new ServoEx(this.hardwareMap, Constants.SERVO_KICKER_RIGHT_TOP);
-        this.kickRightBottom = new ServoEx(this.hardwareMap, Constants.SERVO_KICKER_RIGHT_BOTTOM);
+        this.kickRightTop = new ServoEx(this.hardwareMap, Constants.SERVO_KICKER_TOP);
+        this.kickRightBottom = new ServoEx(this.hardwareMap, Constants.SERVO_KICKER_BOTTOM);
     }
 
     @Override

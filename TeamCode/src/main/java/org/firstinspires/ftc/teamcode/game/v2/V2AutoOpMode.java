@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.game.v2;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.seattlesolvers.solverslib.command.CommandOpMode;
 import moe.seikimo.ftc.game.GameManager;
 
-@Autonomous(name = "V2 Auto", group = "Game")
 public final class V2AutoOpMode extends CommandOpMode {
     private GameManager gameManager;
 

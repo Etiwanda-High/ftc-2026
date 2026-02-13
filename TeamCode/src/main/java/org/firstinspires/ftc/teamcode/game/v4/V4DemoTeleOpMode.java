@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.game.v4;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.drivebase.MecanumDrive;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import moe.seikimo.ftc.Constants;
 
-@TeleOp(name = "V4 Demo TeleOp", group = "V4")
 public final class V4DemoTeleOpMode extends OpMode {
     private MecanumDrive drive;
 

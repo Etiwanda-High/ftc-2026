@@ -4,10 +4,8 @@ import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import moe.seikimo.ftc.Constants;
 
-@TeleOp(name = "V4 Drive", group = "V4")
 public final class V4DriveTeleOpMode extends OpMode {
     private Follower follower;
     private TelemetryManager panels;

@@ -1,12 +1,10 @@
 package org.firstinspires.ftc.teamcode.game.v2;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.*;
 import moe.seikimo.ftc.game.GameManager;
 import moe.seikimo.ftc.game.commands.RelativeDriveCommand;
 
-@TeleOp(name = "V2 TeleOp", group = "Game")
 public final class V2TeleOpMode extends OpMode {
     private GameManager gameManager;
 

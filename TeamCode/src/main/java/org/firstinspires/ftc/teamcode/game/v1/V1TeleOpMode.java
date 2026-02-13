@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.game.v1;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys.Button;
 import com.seattlesolvers.solverslib.hardware.motors.Motor;
@@ -9,7 +8,6 @@ import moe.seikimo.ftc.DriverProfile;
 import moe.seikimo.ftc.robot.v1.Localization;
 import moe.seikimo.ftc.robot.v1.MecanumDrivetrain;
 
-@TeleOp(name = "V1", group = "Game")
 public final class V1TeleOpMode extends OpMode {
     private GamepadEx player1, player2;
     private DriverProfile profile1, profile2;
