@@ -42,7 +42,7 @@ public final class IntakeSystem extends SubsystemBase {
         this.controller = gameManager.getController();
 
         val hwMap = gameManager.getHwMap();
-        this.motor = new Motor(hwMap, Constants.MOTOR_INTAKE);
+        this.motor = new Motor(hwMap, "intake");
 
         this.nuh = new ServoEx(hwMap, "nuh");
         this.uh = new ServoEx(hwMap, "uh");

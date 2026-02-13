@@ -29,16 +29,16 @@ public interface Constants {
 
     // region Hardware Map & Sensor Constants
     String MOTOR_LAUNCH = "launcher";
-    String MOTOR_INTAKE = "intake";
     String MOTOR_INTAKE_FRONT = "intake_front";
+    String MOTOR_INTAKE_BACK = "intake_back";
 
     String SENSOR_PINPOINT = "pinpoint";
     String SENSOR_LIMELIGHT = "Limelight";
     int LIMELIGHT_POLL_RATE = 100;
 
     String SERVO_KICKER_LEFT = "kicker_left";
-    String SERVO_KICKER_RIGHT_TOP = "kicker_right_top";
-    String SERVO_KICKER_RIGHT_BOTTOM = "kicker_right_bottom";
+    String SERVO_KICKER_TOP = "kicker_top";
+    String SERVO_KICKER_BOTTOM = "kicker_bottom";
 
     String DRIVE_FRONT_LEFT = "left_front";
     String DRIVE_FRONT_RIGHT = "right_front";
