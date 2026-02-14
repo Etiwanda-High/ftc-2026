@@ -42,10 +42,10 @@ public final class IntakeSystem extends SubsystemBase {
         this.controller = gameManager.getController();
 
         val hwMap = gameManager.getHwMap();
-        this.motor = new Motor(hwMap, Constants.MOTOR_INTAKE);
+        this.motor = new Motor(hwMap, "intake");
 
-        this.nuh = new ServoEx(hwMap, Constants.SERVO_NUH);
-        this.uh = new ServoEx(hwMap, Constants.SERVO_UH);
+        this.nuh = new ServoEx(hwMap, "nuh");
+        this.uh = new ServoEx(hwMap, "uh");
         this.uh.setInverted(true);
     }
 
@@ -108,14 +108,14 @@ public final class IntakeSystem extends SubsystemBase {
 
     /** Opens the ball intake gate. */
     public void openGate() {
-        this.nuh.set(Constants.SERVO_DOOR_OPENED);
-        this.uh.set(Constants.SERVO_DOOR_OPENED);
+        this.nuh.set(0);
+        this.uh.set(0);
     }
 
     /** Closes the ball intake gate. */
     public void closeGate() {
-        this.nuh.set(Constants.SERVO_DOOR_CLOSED);
-        this.uh.set(Constants.SERVO_DOOR_CLOSED);
+        this.nuh.set(0);
+        this.uh.set(0);
     }
 
     // region Subsystem Implementation

@@ -34,12 +34,9 @@ public final class Localization {
     public Localization(Telemetry telemetry, HardwareMap hwMap) {
         this.telemetry = telemetry;
 
-        this.imu = hwMap.get(Rev9AxisImu.class, Constants.SENSOR_IMU);
-//        this.otos = hwMap.get(SparkFunOTOS.class, Constants.SENSOR_OTOS);
-//        this.camera = hwMap.get(Limelight3A.class, Constants.SENSOR_LIMELIGHT);
-
-        this.otos = null;
-        this.camera = null;
+        this.imu = hwMap.get(Rev9AxisImu.class, "imu");
+        this.otos = hwMap.get(SparkFunOTOS.class, "otos");
+        this.camera = hwMap.get(Limelight3A.class, "Limelight");
     }
 
     /**
@@ -109,7 +106,7 @@ public final class Localization {
 
         // Calibrate the sensor by taking samples.
         // This is blocking and will wait until all samples are taken.
-        this.otos.calibrateImu(Constants.OTOS_SAMPLES, true);
+        this.otos.calibrateImu(128, true);
     }
 
     /**

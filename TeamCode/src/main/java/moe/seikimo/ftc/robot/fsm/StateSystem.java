@@ -64,13 +64,20 @@ public final class StateSystem implements MonoBehaviour {
     }
 
     /**
-     * Transitions to the last state on the stack.
+     * Fallback to the last state on the stack with a return code of 0.
      */
     public void fallbackState() {
+        this.fallbackState(0);
+    }
+
+    /**
+     * Transitions to the last state on the stack.
+     */
+    public void fallbackState(int returnCode) {
         val previousState = this.stateStack.isEmpty() ?
             State.IDLE :
             this.stateStack.pop();
-        this.robot.changeState(previousState);
+        this.robot.changeState(previousState, returnCode);
     }
 
     // region MonoBehavior Implementation

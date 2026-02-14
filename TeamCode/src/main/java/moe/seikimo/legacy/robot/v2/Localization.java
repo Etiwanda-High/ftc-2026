@@ -38,8 +38,8 @@ public final class Localization extends SubsystemBase {
         this.telemetry = gameManager.getTelemetry();
 
         val hwMap = gameManager.getHwMap();
-        this.imu = hwMap.get(Rev9AxisImu.class, Constants.SENSOR_IMU);
-        this.otos = hwMap.get(SparkFunOTOS.class, Constants.SENSOR_OTOS);
+        this.imu = hwMap.get(Rev9AxisImu.class, "imu");
+        this.otos = hwMap.get(SparkFunOTOS.class, "otos");
         // this.camera = hwMap.get(Limelight3A.class, Constants.SENSOR_LIMELIGHT);
 
         this.camera = null;
@@ -161,7 +161,7 @@ public final class Localization extends SubsystemBase {
 
         // Calibrate the sensor by taking samples.
         // This is blocking and will wait until all samples are taken.
-        this.otos.calibrateImu(Constants.OTOS_SAMPLES, true);
+        this.otos.calibrateImu(128, true);
     }
 
     // endregion

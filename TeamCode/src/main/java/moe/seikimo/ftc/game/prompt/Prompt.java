@@ -9,7 +9,7 @@ public final class Prompt<T> {
     public static Function<String, Integer> INTEGER_PARSER = Integer::parseInt;
     public static Function<String, Double> DOUBLE_PARSER = Double::parseDouble;
     public static <T extends Enum<T>> Function<String, T> ENUM_PARSER(Class<T> enumClass) {
-        return input -> Enum.valueOf(enumClass.asSubclass(Enum.class), input);
+        return input -> Enum.valueOf(enumClass, input);
     }
 
     private final String title;

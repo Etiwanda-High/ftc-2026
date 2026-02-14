@@ -29,7 +29,12 @@ public interface Constants {
 
     // region Hardware Map & Sensor Constants
     String MOTOR_LAUNCH = "launcher";
-    String MOTOR_INTAKE = "intake";
+    String MOTOR_INTAKE_FRONT = "intake_front";
+    String MOTOR_INTAKE_BACK = "intake_front";
+
+    String SERVO_TOP = "top_servo";
+    String SERVO_MIDDLE = "middle_servo";
+    String SERVO_BOTTOM = "bottom_servo";
 
     String SENSOR_LIMELIGHT = "Limelight";
     /** 250Hz is the max poll rate for the Limelight 3A. */
@@ -62,8 +67,8 @@ public interface Constants {
         .hardwareMapName(SENSOR_PINPOINT)
         .distanceUnit(DistanceUnit.MM)
         // These values are taken from the OnShape model as of 11/21/2025.
-        .forwardPodY(-100.8) // 4 inches backward
-        .strafePodX(-76.7)   // 3 inches left
+        .forwardPodY(-120.40552) // 4 inches backward
+        .strafePodX(-79.10678)   // 3 inches left
         .encoderResolution(GoBildaOdometryPods.goBILDA_4_BAR_POD)
         // TODO: Evaluate whether these directions are correct.
         //       They are both going to be FORWARD, or REVERSE.
