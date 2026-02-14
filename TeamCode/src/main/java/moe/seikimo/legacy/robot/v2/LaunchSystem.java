@@ -37,12 +37,12 @@ public final class LaunchSystem extends SubsystemBase {
 
     /** Sets the motor (toggle) speed to the close constant. */
     public void speedClose() {
-        this.targetSpeed = Constants.LAUNCH_POWER_CLOSE;
+        this.targetSpeed = 0.7d;
     }
 
     /** Sets the motor (toggle) speed to the far constant. */
     public void speedFar() {
-        this.targetSpeed = Constants.LAUNCH_POWER_FAR;
+        this.targetSpeed = 0.79d;
     }
 
     /** Incrementally increases the motor speed. */

@@ -1,5 +1,6 @@
 package moe.seikimo.ftc;
 
+import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
@@ -19,14 +20,8 @@ import java.util.function.Function;
  * <p>
  * Includes constants for Pedro Pathing.
  */
+@Configurable
 public interface Constants {
-    // region Launch Constants
-
-    double LAUNCH_POWER_CLOSE = 0.7;
-    double LAUNCH_POWER_FAR = 0.79;
-
-    // endregion
-
     // region Hardware Map & Sensor Constants
     String MOTOR_LAUNCH = "launcher";
     String MOTOR_INTAKE_FRONT = "intake_front";
