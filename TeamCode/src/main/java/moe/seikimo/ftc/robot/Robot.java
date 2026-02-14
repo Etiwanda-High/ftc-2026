@@ -61,15 +61,19 @@ public abstract class Robot extends OpMode implements Discoverable {
 
         try {
             val instance = (StateMachine) this.instantiate(stateType);
-            this.getStateManager().changeState(state, instance, returnCode);
+            this.getSystem(StateSystem.class).changeState(state, instance, returnCode);
         } catch (Exception ex) {
             throw new RuntimeException("Failed to instantiate state: " + stateType.getName(), ex);
         }
     }
 
-    /** @return The state manager system. */
-    public StateSystem getStateManager() {
-        return (StateSystem) this.systems.get(StateSystem.class);
+    /** @return The system with the type, otherwise throw an error. */
+    @SuppressWarnings("unchecked")
+    public <T extends MonoBehaviour> T getSystem(Class<T> type) {
+        if (!this.systems.containsKey(type)) {
+            throw new IllegalStateException("System not found: " + type.getName());
+        }
+        return (T) this.systems.get(type);
     }
 
     // region Discoverable Implementation
@@ -158,12 +162,15 @@ public abstract class Robot extends OpMode implements Discoverable {
         this.logger.push();
 
         this.initialized = true;
+
+        this.promptManager.render(this.telemetry);
     }
 
     /** Equivalent to {@link MonoBehaviour#preUpdate()} */
     @Override
     public void init_loop() {
         this.systems.values().forEach(MonoBehaviour::preUpdate);
+        this.promptManager.render(this.telemetry);
 
         this.logger.push();
     }
@@ -200,6 +207,7 @@ public abstract class Robot extends OpMode implements Discoverable {
     public enum OperationMode {
         NONE,
         AUTONOMOUS,
-        TELE_OP
+        TELE_OP,
+        TUNING
     }
 }
