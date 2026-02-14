@@ -163,14 +163,14 @@ public abstract class Robot extends OpMode implements Discoverable {
 
         this.initialized = true;
 
-        this.promptManager.render(this.telemetry);
+        this.promptManager.render(this.gamepad1, this.telemetry);
     }
 
     /** Equivalent to {@link MonoBehaviour#preUpdate()} */
     @Override
     public void init_loop() {
         this.systems.values().forEach(MonoBehaviour::preUpdate);
-        this.promptManager.render(this.telemetry);
+        this.promptManager.render(this.gamepad1, this.telemetry);
 
         this.logger.push();
     }

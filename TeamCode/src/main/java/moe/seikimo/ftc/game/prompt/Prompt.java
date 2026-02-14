@@ -2,18 +2,13 @@ package moe.seikimo.ftc.game.prompt;
 
 import lombok.Data;
 
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 @Data
-public final class Prompt<T> {
-    public static Function<String, Integer> INTEGER_PARSER = Integer::parseInt;
-    public static Function<String, Double> DOUBLE_PARSER = Double::parseDouble;
-    public static <T extends Enum<T>> Function<String, T> ENUM_PARSER(Class<T> enumClass) {
-        return input -> Enum.valueOf(enumClass, input);
-    }
-
+public final class Prompt<T extends Enum<T>> {
     private final String title;
     private final T value;
-
-    private final Function<String, T> parser;
+    private final List<T> options;
 }

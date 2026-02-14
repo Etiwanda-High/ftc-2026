@@ -132,8 +132,8 @@ public interface Discoverable {
                 Objects.requireNonNull(annotation);
 
                 val promptLabel = annotation.value();
-                val prompt = robot.getPromptManager().getValue(promptLabel);
-                field.set(object, prompt.getValue());
+                Enum<?> prompt = robot.getPromptManager().getValue(promptLabel);
+                field.set(object, prompt);
             }
         }
 
