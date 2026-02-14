@@ -9,7 +9,7 @@ import moe.seikimo.ftc.Constants;
 @TeleOp(name = "Test Intake", group = "Test")
 public final class TestIntakeOpMode extends OpMode {
     private MotorEx front, back;
-    private boolean frontReversed = false, backReversed = true;
+    private boolean frontReversed = false, backReversed = false;
     private double power = 1d;
 
     @Override

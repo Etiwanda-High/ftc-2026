@@ -21,7 +21,7 @@ public final class TestDriveOpMode extends OpMode {
         val frontRight = new Motor(hwMap, Constants.DRIVE_FRONT_RIGHT);
         val backLeft = new Motor(hwMap, Constants.DRIVE_BACK_LEFT);
         val backRight = new Motor(hwMap, Constants.DRIVE_BACK_RIGHT);
-        this.handle = new MecanumDrive(false, frontLeft, frontRight, backLeft, backRight);
+        this.handle = new MecanumDrive(true, frontLeft, frontRight, backLeft, backRight);
     }
 
     @Override
